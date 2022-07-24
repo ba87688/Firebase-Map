@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "629403826617",
+    "project_id": "evan-proj-11891",
+    "storage_bucket": "evan-proj-11891.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629403826617:android:d8e6717487ef0ae0591e68",
+        "android_client_info": {
+          "package_name": "com.example2.roomapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "629403826617-nrap8imvk03sch7gt42729g73oou3dck.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example2.roomapp",
+            "certificate_hash": "e5fb006aa7e7c491717d84696d50e400b1183efb"
+          }
+        },
+        {
+          "client_id": "629403826617-mcog07fg015k9lkevhqoge20kn8nied2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbI-oJ6_DzuZ4yFIVl7-TXiMu-FQpkZPI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "629403826617-mcog07fg015k9lkevhqoge20kn8nied2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
