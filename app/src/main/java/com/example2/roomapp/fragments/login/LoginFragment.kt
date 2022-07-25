@@ -35,6 +35,8 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentLoginBinding.inflate(inflater,container,false)
 
+        val nav = findNavController()
+
         isUserLoggedIn()
 
         observeAuthenticationState()
@@ -72,7 +74,7 @@ class LoginFragment : Fragment() {
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK){
                 Log.i("TAG", "onActivityResult: successful ${FirebaseAuth.getInstance().currentUser?.displayName}")
-                findNavController().navigate(R.id.remindersFragment)
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRemindersFragment())
             }
             else{
 

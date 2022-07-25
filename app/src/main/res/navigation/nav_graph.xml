@@ -9,7 +9,12 @@
         android:id="@+id/loginFragment"
         android:name="com.example2.roomapp.fragments.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_remindersFragment"
+            app:destination="@id/remindersFragment"
+            app:launchSingleTop="true" />
+    </fragment>
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.example2.roomapp.fragments.login.RegistrationFragment"
@@ -19,5 +24,11 @@
         android:id="@+id/remindersFragment"
         android:name="com.example2.roomapp.fragments.main.RemindersFragment"
         android:label="fragment_reminders"
-        tools:layout="@layout/fragment_reminders" />
+        tools:layout="@layout/fragment_reminders" >
+        <action
+            android:id="@+id/action_remindersFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@+id/loginFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
 </navigation>
