@@ -4,7 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Jagi/AndroidStudioProjects/Firebase-Map/app/src/main/res/layout/activity_main.xml" value="0.12360688956433637" />
-        <entry key="..\:/Users/Jagi/AndroidStudioProjects/Firebase-Map/app/src/main/res/layout/fragment_login.xml" value="0.1" />
+        <entry key="..\:/Users/Jagi/AndroidStudioProjects/Firebase-Map/app/src/main/res/layout/fragment_login.xml" value="0.176" />
+        <entry key="..\:/Users/Jagi/AndroidStudioProjects/Firebase-Map/app/src/main/res/layout/fragment_reminders.xml" value="0.12" />
       </map>
     </option>
   </component>

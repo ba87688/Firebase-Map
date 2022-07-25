@@ -68,11 +68,11 @@ class LoginFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if(requestCode == SIGN_IN_REQUEST_CODE){
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK){
                 Log.i("TAG", "onActivityResult: successful ${FirebaseAuth.getInstance().currentUser?.displayName}")
+                findNavController().navigate(R.id.remindersFragment)
             }
             else{
 
@@ -85,11 +85,10 @@ class LoginFragment : Fragment() {
 
     private fun isUserLoggedIn(){
 
-        val navController = findNavController()
         viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticateState->
             when(authenticateState){
                 LoginViewModel.AuthenticationState.AUTHENTICATED->{
-                    navController.navigate(R.id.remindersFragment)
+                    findNavController().navigate(R.id.remindersFragment)
 
                 }
             }
