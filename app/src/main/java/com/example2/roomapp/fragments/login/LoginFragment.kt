@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example2.roomapp.R
 import com.example2.roomapp.databinding.FragmentLoginBinding
 import com.example2.roomapp.viewmodels.login.LoginViewModel
@@ -33,6 +34,8 @@ class LoginFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentLoginBinding.inflate(inflater,container,false)
+
+        isUserLoggedIn()
 
         observeAuthenticationState()
         binding.buttonLogin.setOnClickListener {
@@ -78,6 +81,20 @@ class LoginFragment : Fragment() {
             }
 
         }
+    }
+
+    private fun isUserLoggedIn(){
+
+        val navController = findNavController()
+        viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticateState->
+            when(authenticateState){
+                LoginViewModel.AuthenticationState.AUTHENTICATED->{
+                    navController.navigate(R.id.remindersFragment)
+
+                }
+            }
+
+        })
     }
 
 

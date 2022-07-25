@@ -10,4 +10,14 @@
         android:name="com.example2.roomapp.fragments.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.example2.roomapp.fragments.login.RegistrationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration" />
+    <fragment
+        android:id="@+id/remindersFragment"
+        android:name="com.example2.roomapp.fragments.main.RemindersFragment"
+        android:label="fragment_reminders"
+        tools:layout="@layout/fragment_reminders" />
 </navigation>
