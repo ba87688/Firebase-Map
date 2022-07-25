@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        binding.tvMainview.text = "Layout inflated"
         setContentView(binding.root)
     }
 }
