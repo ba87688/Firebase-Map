@@ -8,8 +8,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.example2.roomapp.R
 import com.example2.roomapp.databinding.FragmentLoginBinding
+import com.example2.roomapp.viewmodels.login.LoginViewModel
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
@@ -21,6 +24,9 @@ class LoginFragment : Fragment() {
     val SIGN_IN_REQUEST_CODE = -1
 
 
+    private val viewModel : LoginViewModel by viewModels()
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,7 +34,7 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentLoginBinding.inflate(inflater,container,false)
 
-
+        observeAuthenticationState()
         binding.buttonLogin.setOnClickListener {
             Log.i("TAG", "onCreateView: Clicked on a button")
             //give users sign in ability with email or gmail.
@@ -37,6 +43,7 @@ class LoginFragment : Fragment() {
                 AuthUI.IdpConfig.EmailBuilder().build(),
                 AuthUI.IdpConfig.GoogleBuilder().build()
             )
+
 
             //create and lanuch sign in intent
             //listen to response of this activity
@@ -73,5 +80,31 @@ class LoginFragment : Fragment() {
         }
     }
 
+
+    private fun observeAuthenticationState(){
+//        val factToDisplay = viewModel.getFactToDisplay(requireContext())
+
+        viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticationState ->
+            when(authenticationState){
+
+                LoginViewModel.AuthenticationState.AUTHENTICATED->{
+                    Log.i("TAG", "observeAuthenticationState: THE STATE")
+                    val name =  FirebaseAuth.getInstance().currentUser?.displayName
+                    Log.i("TAG", "observeAuthenticationState: THE STATE $name")
+                    binding.buttonLogin.text ="logout"
+                    binding.buttonLogin.setOnClickListener {
+                        AuthUI.getInstance().signOut(requireContext())
+                    }
+                }
+                else ->{
+
+                    //not logged in
+                    //set text of button,on click
+                }
+
+            }
+
+        })
+    }
 
 }
