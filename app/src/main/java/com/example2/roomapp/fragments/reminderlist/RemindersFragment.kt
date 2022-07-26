@@ -30,6 +30,7 @@ class RemindersFragment : Fragment() {
 //    private val viewModel : LoginViewModel by viewModels()
     private lateinit var viewModel:LoginViewModel
     private val REQUEST_LOCATION_PERMISSION = 1
+    var i = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,10 +58,12 @@ class RemindersFragment : Fragment() {
         val db = Room.databaseBuilder(activity?.applicationContext!!,RemindersDatabase::class.java,"reminders_database").allowMainThreadQueries().build()
 
         lifecycleScope.launch {
-            db.reminderDao().insertReminder(Reminder("Hi","desceibe","er","33","rr","t"))
-            db.reminderDao().insertReminder(Reminder("Hi","red","god","3","rr","tiger"))
-            val r = db.reminderDao().getReminderById("t")
-            Log.i("TAG", "onCreateView: $r")
+//            db.reminderDao().insertReminder(Reminder("Hi","desceibe","er","33","rr","t"))
+//            db.reminderDao().insertReminder(Reminder("Tarzan","red","god","3","rr","tiger"))
+//            val r = db.reminderDao().getReminderById("t")
+//            Log.i("TAG", "onCreateView: $r")
+
+            db.reminderDao().deleteAllReminders()
         }
 
 
@@ -79,25 +82,43 @@ class RemindersFragment : Fragment() {
 
         viewModel.restaurants.observe(viewLifecycleOwner, Observer {it->
             val list = it.data
+            val size = list?.size
+            Log.i("TAG", "LIST SIZE : $size ")
             if(list !=null){
                 binding.reminderRecyclerView.adapter = RemainderRecyclerViewAdapter(list)
-            }else{
+            }
+            if(list?.size==0 ||list==null) {
+                Log.i("TAG", "went in : $size ")
 
-                binding.reminderRecyclerView.visibility= View.GONE
-                val imageView:ImageView = ImageView(this@RemindersFragment.context)
-                imageView.setImageResource(R.drawable.ic_no_data)
-                binding.reminderLinearView.gravity = Gravity.CENTER
-                binding.reminderLinearView.addView(imageView)
-                Log.i("TAG", "onCreateView: this list is empty ")
-
+                if (i<1) {
+                    binding.reminderRecyclerView.visibility = View.GONE
+                    binding.frameLayout.visibility = View.GONE
+                    val imageView = ImageView(this@RemindersFragment.context)
+                    imageView.setImageResource(R.drawable.ic_no_data)
+                    binding.reminderLinearView.gravity = Gravity.CENTER
+                    binding.reminderLinearView.addView(imageView)
+                    Log.i("TAG", "onCreateView: this list is empty ")
+                    i = i + 1
+                }
 
             }
+
+//            else{
+//
+//                binding.reminderRecyclerView.visibility= View.GONE
+//                val imageView:ImageView = ImageView(this@RemindersFragment.context)
+//                imageView.setImageResource(R.drawable.ic_no_data)
+//                binding.reminderLinearView.gravity = Gravity.CENTER
+//                binding.reminderLinearView.addView(imageView)
+//                Log.i("TAG", "onCreateView: this list is empty ")
+//
+//
+//            }
 
 
 
 //            Log.i("TAG", "onCreateView: creating things ${obser.id} ")
         })
-        binding.reminderRecyclerView.adapter
 
 
         return binding.root
