@@ -92,7 +92,8 @@ class LoginFragment : Fragment() {
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK){
                 Log.i("TAG", "onActivityResult: successful ${FirebaseAuth.getInstance().currentUser?.displayName}")
-                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRemindersFragment())
+//                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRemindersFragment())
+                findNavController().navigate(R.id.remindersFragment)
             }
             else{
 

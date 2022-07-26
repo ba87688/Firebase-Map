@@ -10,10 +10,10 @@
         android:name="com.example2.roomapp.fragments.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
+
         <action
             android:id="@+id/action_loginFragment_to_remindersFragment"
-            app:destination="@id/remindersFragment"
-            app:launchSingleTop="true" />
+            app:destination="@id/remindersFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"

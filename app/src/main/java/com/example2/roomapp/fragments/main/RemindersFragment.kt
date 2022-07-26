@@ -70,11 +70,7 @@ class RemindersFragment : Fragment() {
         viewModel.restaurants.observe(viewLifecycleOwner, Observer {it->
             val list = it.data
             if(list !=null){
-
-
                 binding.reminderRecyclerView.adapter = RemainderRecyclerViewAdapter(list)
-
-
             }else{
 
                 binding.reminderRecyclerView.visibility= View.GONE
