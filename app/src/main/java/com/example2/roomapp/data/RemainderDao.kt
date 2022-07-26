@@ -30,5 +30,8 @@ interface RemainderDao {
 
 
     @Query("SELECT * FROM reminders")
-    fun getAllReminders2(): Flow<Reminder>
+    fun getAllReminders2(): Flow<List<Reminder>>
+
+    @Query("SELECT * FROM reminders")
+    fun getAllReminders3(): Flow<List<Reminder>>
 }

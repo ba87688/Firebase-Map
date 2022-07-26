@@ -1,5 +1,6 @@
 package com.example2.roomapp.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,7 @@ class RemainderRecyclerViewAdapter(val list:List<Reminder>): RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: ReminderViewHolder, position: Int) {
-
+        Log.i("FUCKING HELL", "onBindViewHolder: in the adapater ${list.get(position).id}")
     }
 
     override fun getItemCount(): Int {

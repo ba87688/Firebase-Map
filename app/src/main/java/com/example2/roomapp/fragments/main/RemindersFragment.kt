@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.room.Room
 import com.example2.roomapp.R
+import com.example2.roomapp.adapter.RemainderRecyclerViewAdapter
 import com.example2.roomapp.data.Reminder
 import com.example2.roomapp.data.database.RemindersDatabase
 import com.example2.roomapp.databinding.FragmentRemindersBinding
@@ -52,9 +53,35 @@ class RemindersFragment : Fragment() {
 
         lifecycleScope.launch {
             db.reminderDao().insertReminder(Reminder("Hi","desceibe","er","33","rr","t"))
+            db.reminderDao().insertReminder(Reminder("Hi","red","god","3","rr","tiger"))
             val r = db.reminderDao().getReminderById("t")
             Log.i("TAG", "onCreateView: $r")
         }
+
+
+
+
+
+
+
+
+        viewModel.restaurants.observe(viewLifecycleOwner, Observer {it->
+            val list = it.data
+            if(list !=null){
+                binding.reminderRecyclerView.adapter = RemainderRecyclerViewAdapter(list)
+
+
+            }else{
+                Log.i("TAG", "onCreateView: this shit empty ")
+            }
+
+
+
+//            Log.i("TAG", "onCreateView: creating things ${obser.id} ")
+        })
+        binding.reminderRecyclerView.adapter
+
+
         return binding.root
     }
 
