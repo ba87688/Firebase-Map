@@ -24,7 +24,8 @@ import kotlinx.coroutines.launch
 class RemindersFragment : Fragment() {
     private var _binding: FragmentRemindersBinding? = null
     private val binding get() = _binding!!
-    private val viewModel : LoginViewModel by viewModels()
+//    private val viewModel : LoginViewModel by viewModels()
+    private lateinit var viewModel:LoginViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,16 +38,15 @@ class RemindersFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding= FragmentRemindersBinding.inflate(inflater,container,false)
-//
-//        //viewmodel references applciation. neccessary
-//        val application = requireNotNull(this.activity).application
-//        //reference datasource
-//        val dataSource = RemindersDatabase.getDatabase(application)
-//        //create viewmodel
-//        val viewModelFactory = LoginViewModelFactory(dataSource,application)
-//        val viewModelTracker = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
-//
-//        val v = ViewModelProvider(this).get(LoginViewModel::class.java)
+
+
+        val application = requireNotNull(this.activity).application
+        val dataSource = RemindersDatabase.getDatabase(application)
+        val viewModelFactory = LoginViewModelFactory(dataSource,application)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
+
+
+
 
         val db = Room.databaseBuilder(activity?.applicationContext!!,RemindersDatabase::class.java,"reminders_database").allowMainThreadQueries().build()
 

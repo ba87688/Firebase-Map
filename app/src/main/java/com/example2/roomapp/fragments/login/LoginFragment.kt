@@ -30,6 +30,7 @@ class LoginFragment : Fragment() {
 
 //    private val viewModel : LoginViewModel by viewModels()
 
+    private lateinit var viewModel:LoginViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +42,7 @@ class LoginFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val dataSource = RemindersDatabase.getDatabase(application)
         val viewModelFactory = LoginViewModelFactory(dataSource,application)
-        val viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 //        val viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
 
@@ -51,9 +52,9 @@ class LoginFragment : Fragment() {
 
         val nav = findNavController()
 
-        isUserLoggedIn(viewModel)
+        isUserLoggedIn()
 
-        observeAuthenticationState(viewModel)
+        observeAuthenticationState()
         binding.buttonLogin.setOnClickListener {
             Log.i("TAG", "onCreateView: Clicked on a button")
             //give users sign in ability with email or gmail.
@@ -77,6 +78,9 @@ class LoginFragment : Fragment() {
 
         }
 
+//        viewModel.restaurants.observe(viewLifecycleOwner, Observer { obser->
+//            Log.i("TAG", "onCreateView: creating things ${obser.id} ")
+//        })
 
 
         return binding.root
@@ -99,7 +103,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun isUserLoggedIn(viewModel:LoginViewModel){
+    private fun isUserLoggedIn(){
 
         viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticateState->
             when(authenticateState){
@@ -113,7 +117,7 @@ class LoginFragment : Fragment() {
     }
 
 
-    private fun observeAuthenticationState(viewModel: LoginViewModel){
+    private fun observeAuthenticationState(){
 //        val factToDisplay = viewModel.getFactToDisplay(requireContext())
 
         viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticationState ->

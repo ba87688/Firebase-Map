@@ -13,7 +13,7 @@ import com.example2.roomapp.repository.RemindersRepository
 class LoginViewModel(val database: RemindersDatabase, application: Application): AndroidViewModel(application) {
     private var repository: RemindersRepository = RemindersRepository(database)
 
-//    val restaurants = repository.reminderDao.getAllReminders2().asLiveData()
+    val restaurants = repository.reminderDao.getAllReminders2().asLiveData()
 
     companion object{
         val androidFacts = arrayOf(
