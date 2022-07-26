@@ -1,14 +1,22 @@
 package com.example2.roomapp.repository
 
+import androidx.lifecycle.LiveData
 import com.example2.roomapp.data.RemainderDao
 import com.example2.roomapp.data.Reminder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 import com.example2.roomapp.data.Result
+import com.example2.roomapp.data.database.RemindersDatabase
+import com.example2.roomapp.data.database.networkBoundResource
+import com.google.gson.Gson
+import org.json.JSONObject
 
-class RemindersRepository(private val reminderDao: RemainderDao) {
 
+
+class RemindersRepository(private val database: RemindersDatabase) {
+    val reminderDao: RemainderDao = database.reminderDao()
+    val astroids: LiveData<List<Reminder>> = reminderDao.getAllReminders()
 
     suspend fun getReminders():Result<List<Reminder>> =
         withContext(Dispatchers.IO){
@@ -41,6 +49,37 @@ class RemindersRepository(private val reminderDao: RemainderDao) {
     }
 
 
+
+
+    fun getRestaurants() = networkBoundResource(
+        query = {
+
+            reminderDao.getAllReminders2()
+        },
+        fetch = {
+            var pr : ArrayList<Reminder> = arrayListOf()
+//            withContext(Dispatchers.IO) {
+//                val formattedDateList = getRealParsedResponse()
+//
+//
+//                val data = service.getAstroids3(formattedDateList.first(),formattedDateList.last())
+//                val you = Gson().toJson(data)
+//                val you1 = JSONObject(you)
+//                val pr1 = parseAsteroidsJsonResult(you1)
+//                withContext(Dispatchers.IO){
+//                    pr= pr1
+//                }
+//            }
+            pr
+        },
+        saveFetchResult = { astroid->
+
+//            reminderDao.withTransaction {
+//                database.assDatabaseDao.deleteAllAstroids()
+//                database.assDatabaseDao.insertList(astroid)
+//            }
+        }
+    )
 
 
     suspend fun deleteAllReminders() {

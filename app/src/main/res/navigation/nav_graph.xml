@@ -30,5 +30,6 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@+id/loginFragment"
             app:popUpToInclusive="true"/>
+
     </fragment>
 </navigation>

@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
@@ -24,5 +25,10 @@ interface RemainderDao {
 //    @Query("SELECT * FROM reminders")
 //    suspend fun getLiveReminders(): LiveData<List<Reminder>>
 
+    @Query("SELECT * FROM reminders ORDER BY entry_id DESC")
+    fun getAllReminders(): LiveData<List<Reminder>>
 
+
+    @Query("SELECT * FROM reminders")
+    fun getAllReminders2(): Flow<Reminder>
 }

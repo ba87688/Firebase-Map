@@ -10,10 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example2.roomapp.R
+import com.example2.roomapp.data.database.RemindersDatabase
 import com.example2.roomapp.databinding.FragmentLoginBinding
 import com.example2.roomapp.viewmodels.login.LoginViewModel
+import com.example2.roomapp.viewmodels.login.LoginViewModelFactory
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
@@ -25,7 +28,7 @@ class LoginFragment : Fragment() {
     val SIGN_IN_REQUEST_CODE = -1
 
 
-    private val viewModel : LoginViewModel by viewModels()
+//    private val viewModel : LoginViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -35,11 +38,22 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentLoginBinding.inflate(inflater,container,false)
 
+        val application = requireNotNull(this.activity).application
+        val dataSource = RemindersDatabase.getDatabase(application)
+        val viewModelFactory = LoginViewModelFactory(dataSource,application)
+        val viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
+//        val viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+
+
+
+
+
+
         val nav = findNavController()
 
-        isUserLoggedIn()
+        isUserLoggedIn(viewModel)
 
-        observeAuthenticationState()
+        observeAuthenticationState(viewModel)
         binding.buttonLogin.setOnClickListener {
             Log.i("TAG", "onCreateView: Clicked on a button")
             //give users sign in ability with email or gmail.
@@ -85,7 +99,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun isUserLoggedIn(){
+    private fun isUserLoggedIn(viewModel:LoginViewModel){
 
         viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticateState->
             when(authenticateState){
@@ -99,7 +113,7 @@ class LoginFragment : Fragment() {
     }
 
 
-    private fun observeAuthenticationState(){
+    private fun observeAuthenticationState(viewModel: LoginViewModel){
 //        val factToDisplay = viewModel.getFactToDisplay(requireContext())
 
         viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticationState ->
