@@ -72,7 +72,7 @@ class RemindersFragment : Fragment() {
             if(list !=null){
 
 
-//                binding.reminderRecyclerView.adapter = RemainderRecyclerViewAdapter(list)
+                binding.reminderRecyclerView.adapter = RemainderRecyclerViewAdapter(list)
 
 
             }else{

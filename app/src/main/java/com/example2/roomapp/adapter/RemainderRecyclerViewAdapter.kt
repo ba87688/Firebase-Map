@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example2.roomapp.R
 import com.example2.roomapp.data.Reminder
+import kotlinx.android.synthetic.main.reminder_list.view.*
 
 class RemainderRecyclerViewAdapter(val list:List<Reminder>): RecyclerView.Adapter<RemainderRecyclerViewAdapter.ReminderViewHolder>() {
 
@@ -14,14 +15,17 @@ class RemainderRecyclerViewAdapter(val list:List<Reminder>): RecyclerView.Adapte
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
-            ReminderViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RemainderRecyclerViewAdapter.ReminderViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.reminder_list,parent,false)
         return ReminderViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ReminderViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RemainderRecyclerViewAdapter.ReminderViewHolder, position: Int) {
         Log.i("FUCKING HELL", "onBindViewHolder: in the adapater ${list.get(position).id}")
+
+        holder.itemView.apply {
+            tv_name.text = list.get(position).title
+        }
     }
 
     override fun getItemCount(): Int {
