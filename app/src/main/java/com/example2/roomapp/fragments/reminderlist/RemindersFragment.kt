@@ -1,13 +1,10 @@
-package com.example2.roomapp.fragments.main
+package com.example2.roomapp.fragments.reminderlist
 
-import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -18,7 +15,6 @@ import com.example2.roomapp.adapter.RemainderRecyclerViewAdapter
 import com.example2.roomapp.data.Reminder
 import com.example2.roomapp.data.database.RemindersDatabase
 import com.example2.roomapp.databinding.FragmentRemindersBinding
-import com.example2.roomapp.fragments.login.LoginFragmentDirections
 import com.example2.roomapp.viewmodels.login.LoginViewModel
 import com.example2.roomapp.viewmodels.login.LoginViewModelFactory
 import com.firebase.ui.auth.AuthUI
@@ -66,6 +62,9 @@ class RemindersFragment : Fragment() {
 
 
 
+        binding.floatingActionButton.setOnClickListener {
+            Log.i("TAG", "onCreateView: clicking on the floating action buttom")
+        }
 
         viewModel.restaurants.observe(viewLifecycleOwner, Observer {it->
             val list = it.data
@@ -103,6 +102,7 @@ class RemindersFragment : Fragment() {
         if (id == R.id.logout_menu_item){
             Log.i("TAG", "onOptionsItemSelected: before he hit the ground")
             AuthUI.getInstance().signOut(requireContext())
+
             viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticateState->
                 when(authenticateState){
                     LoginViewModel.AuthenticationState.AUTHENTICATED->{
