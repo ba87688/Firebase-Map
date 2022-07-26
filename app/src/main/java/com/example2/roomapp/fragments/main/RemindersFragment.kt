@@ -4,6 +4,8 @@ import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -68,11 +70,21 @@ class RemindersFragment : Fragment() {
         viewModel.restaurants.observe(viewLifecycleOwner, Observer {it->
             val list = it.data
             if(list !=null){
-                binding.reminderRecyclerView.adapter = RemainderRecyclerViewAdapter(list)
+
+
+//                binding.reminderRecyclerView.adapter = RemainderRecyclerViewAdapter(list)
 
 
             }else{
-                Log.i("TAG", "onCreateView: this shit empty ")
+
+                binding.reminderRecyclerView.visibility= View.GONE
+                val imageView:ImageView = ImageView(this@RemindersFragment.context)
+                imageView.setImageResource(R.drawable.ic_no_data)
+                binding.reminderLinearView.gravity = Gravity.CENTER
+                binding.reminderLinearView.addView(imageView)
+                Log.i("TAG", "onCreateView: this list is empty ")
+
+
             }
 
 
