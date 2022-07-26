@@ -1,9 +1,13 @@
 package com.example2.roomapp.fragments.reminderlist
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +29,7 @@ class RemindersFragment : Fragment() {
     private val binding get() = _binding!!
 //    private val viewModel : LoginViewModel by viewModels()
     private lateinit var viewModel:LoginViewModel
+    private val REQUEST_LOCATION_PERMISSION = 1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +51,8 @@ class RemindersFragment : Fragment() {
 
 
 
+        enableMyLocation()
+
 
         val db = Room.databaseBuilder(activity?.applicationContext!!,RemindersDatabase::class.java,"reminders_database").allowMainThreadQueries().build()
 
@@ -64,6 +71,10 @@ class RemindersFragment : Fragment() {
 
         binding.floatingActionButton.setOnClickListener {
             Log.i("TAG", "onCreateView: clicking on the floating action buttom")
+            val controller = findNavController()
+            controller.navigate(RemindersFragmentDirections.actionRemindersFragmentToCurrentlocationfragment())
+            Log.i("TAG", "onCreateView: clicking on the floating action LEAVING")
+
         }
 
         viewModel.restaurants.observe(viewLifecycleOwner, Observer {it->
@@ -122,4 +133,42 @@ class RemindersFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+
+
+
+
+
+
+    private fun isPermissionGranted() : Boolean {
+        return ContextCompat.checkSelfPermission(
+            this@RemindersFragment.requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION) === PackageManager.PERMISSION_GRANTED
+    }
+    private fun enableMyLocation() {
+        if (isPermissionGranted()) {
+//            map.setMyLocationEnabled(true)
+            Log.i("TAG", "enableMyLocation: permission is granted")
+        }
+        else {
+            ActivityCompat.requestPermissions(
+                this@RemindersFragment.requireActivity(),
+                arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_LOCATION_PERMISSION
+            )
+        }
+    }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray) {
+        // Check if location permissions are granted and if so enable the
+        // location data layer.
+        if (requestCode == REQUEST_LOCATION_PERMISSION) {
+            if (grantResults.size > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                enableMyLocation()
+            }
+        }
+    }
 }

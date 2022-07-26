@@ -16,11 +16,6 @@
             app:destination="@id/remindersFragment" />
     </fragment>
     <fragment
-        android:id="@+id/registrationFragment"
-        android:name="com.example2.roomapp.fragments.login.RegistrationFragment"
-        android:label="fragment_registration"
-        tools:layout="@layout/fragment_registration" />
-    <fragment
         android:id="@+id/remindersFragment"
         android:name="com.example2.roomapp.fragments.reminderlist.RemindersFragment"
         android:label="fragment_reminders"
@@ -31,5 +26,14 @@
             app:popUpTo="@+id/loginFragment"
             app:popUpToInclusive="true"/>
 
+        <action
+            android:id="@+id/action_remindersFragment_to_currentlocationfragment"
+            app:destination="@id/currentLocationFragment"/>
+
     </fragment>
+    <fragment
+        android:id="@+id/currentLocationFragment"
+        android:name="com.example2.roomapp.fragments.usercurrentlocation.CurrentLocationFragment"
+        android:label="fragment_current_location"
+        tools:layout="@layout/fragment_current_location" />
 </navigation>
