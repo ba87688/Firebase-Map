@@ -9,9 +9,21 @@ import com.example2.roomapp.R
 import com.example2.roomapp.data.Reminder
 import kotlinx.android.synthetic.main.reminder_list.view.*
 
-class RemainderRecyclerViewAdapter(val list:List<Reminder>): RecyclerView.Adapter<RemainderRecyclerViewAdapter.ReminderViewHolder>() {
+class RemainderRecyclerViewAdapter(val list:List<Reminder>, private val listener:OnItemClickListener):
+    RecyclerView.Adapter<RemainderRecyclerViewAdapter.ReminderViewHolder>() {
 
-    inner class ReminderViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
+    inner class ReminderViewHolder(itemView:View):RecyclerView.ViewHolder(itemView),View.OnClickListener{
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position:Int = adapterPosition
+            if(position!=RecyclerView.NO_POSITION){
+                listener.onItemClick(position)
+            }
+        }
+
 
     }
 
@@ -31,6 +43,11 @@ class RemainderRecyclerViewAdapter(val list:List<Reminder>): RecyclerView.Adapte
 
     override fun getItemCount(): Int {
         return list.size
+    }
+
+
+    interface OnItemClickListener{
+        fun onItemClick(position: Int)
     }
 
 

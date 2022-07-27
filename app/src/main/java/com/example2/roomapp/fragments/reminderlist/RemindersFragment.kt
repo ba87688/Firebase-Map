@@ -24,13 +24,16 @@ import com.example2.roomapp.viewmodels.login.LoginViewModelFactory
 import com.firebase.ui.auth.AuthUI
 import kotlinx.coroutines.launch
 
-class RemindersFragment : Fragment() {
+class RemindersFragment : Fragment() , RemainderRecyclerViewAdapter.OnItemClickListener{
     private var _binding: FragmentRemindersBinding? = null
     private val binding get() = _binding!!
 //    private val viewModel : LoginViewModel by viewModels()
     private lateinit var viewModel:LoginViewModel
     private val REQUEST_LOCATION_PERMISSION = 1
     var i = 0
+
+    var list2:List<Reminder> = mutableListOf()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,11 +84,12 @@ class RemindersFragment : Fragment() {
         }
 
         viewModel.restaurants.observe(viewLifecycleOwner, Observer {it->
+            list2 = it.data!!
             val list = it.data
             val size = list?.size
             Log.i("TAG", "LIST SIZE : $size ")
             if(list !=null){
-                binding.reminderRecyclerView.adapter = RemainderRecyclerViewAdapter(list)
+                binding.reminderRecyclerView.adapter = RemainderRecyclerViewAdapter(list,this@RemindersFragment)
             }
             if(list?.size==0 ||list==null) {
                 Log.i("TAG", "went in : $size ")
@@ -192,4 +196,14 @@ class RemindersFragment : Fragment() {
             }
         }
     }
+
+    override fun onItemClick(position: Int) {
+
+        Log.i("TAG", "enableMyLocation: position $position")
+
+        //get the reminder that is clicked on
+        val reminder = list2.get(position)
+    }
+
+
 }
