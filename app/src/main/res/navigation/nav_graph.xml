@@ -35,5 +35,18 @@
         android:id="@+id/currentLocationFragment"
         android:name="com.example2.roomapp.fragments.usercurrentlocation.CurrentLocationFragment"
         android:label="fragment_current_location"
-        tools:layout="@layout/fragment_current_location" />
+        tools:layout="@layout/fragment_current_location" >
+        <action
+            android:id="@+id/action_currentLocationFragment_to_savingReminderFragment"
+            app:destination="@id/savingReminderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/savingReminderFragment"
+        android:name="com.example2.roomapp.fragments.savingfragment.SavingReminderFragment"
+        android:label="fragment_saving_reminder_object"
+        tools:layout="@layout/fragment_saving_reminder_object" >
+        <argument
+            android:name="reminder"
+            app:argType="com.example2.roomapp.data.Reminder" />
+    </fragment>
 </navigation>

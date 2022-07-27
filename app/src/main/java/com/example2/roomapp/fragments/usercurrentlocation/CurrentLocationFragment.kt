@@ -16,7 +16,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 import com.example2.roomapp.R
+import com.example2.roomapp.data.Reminder
 import com.example2.roomapp.databinding.FragmentCurrentLocationBinding
 import com.example2.roomapp.databinding.FragmentRemindersBinding
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -29,6 +31,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PointOfInterest
 import com.google.android.material.snackbar.Snackbar
 
 class CurrentLocationFragment : Fragment() {
@@ -43,6 +46,7 @@ class CurrentLocationFragment : Fragment() {
     private val REQUEST_LOCATION_PERMISSION = 1
     private var listOfLatLong: MutableList<LatLng> = mutableListOf()
     private var listOfMarkers: MutableList<Marker> = mutableListOf()
+    private var listOfPoi: MutableList<PointOfInterest> = mutableListOf()
 
 
     lateinit var map: GoogleMap
@@ -93,6 +97,8 @@ class CurrentLocationFragment : Fragment() {
     ): View? {
         _binding= FragmentCurrentLocationBinding.inflate(inflater,container,false)
 
+
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity().application)
 
 
@@ -106,7 +112,13 @@ class CurrentLocationFragment : Fragment() {
             }
             else{
                 Log.i("TAG", "LIST OF MARKERS: ${listOfMarkers.get(0)} ")
+                val nav = findNavController()
 
+                val currentPoi = listOfPoi.get(0)
+                val reminder = Reminder(currentPoi.name,currentPoi.name,currentPoi.name,currentPoi.latLng.latitude.toString(),currentPoi.latLng.longitude.toString(),currentPoi.placeId)
+//                listOfPoi.clear()
+//                listOfMarkers.clear()
+                nav.navigate(CurrentLocationFragmentDirections.actionCurrentLocationFragmentToSavingReminderFragment(reminder))
 
             }
 
@@ -141,16 +153,17 @@ class CurrentLocationFragment : Fragment() {
                 val removedMarker = listOfMarkers.get(0)
                 removedMarker.remove()
                 listOfMarkers.removeAt(0)
+
+                //remove poi
+                listOfPoi.removeAt(0)
             }
             listOfMarkers.add(poiMarket!!)
+            listOfPoi.add(poi)
 
 
 
 
 
-            val cooardinates = poi.latLng
-
-            listOfLatLong.add(cooardinates)
 
         }
     }
