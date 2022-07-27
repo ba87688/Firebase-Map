@@ -68,10 +68,6 @@ class SavingReminderFragment : Fragment() {
 
                 findNavController().navigate(SavingReminderFragmentDirections.actionSavingReminderFragmentToRemindersFragment())
 
-
-
-
-
             }
         }
 

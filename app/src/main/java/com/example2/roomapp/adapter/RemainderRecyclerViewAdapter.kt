@@ -25,6 +25,7 @@ class RemainderRecyclerViewAdapter(val list:List<Reminder>): RecyclerView.Adapte
 
         holder.itemView.apply {
             tv_name.text = list.get(position).title
+            tv_place.text = list.get(position).location
         }
     }
 
