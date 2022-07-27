@@ -24,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
 class CurrentLocationFragment : Fragment() {
@@ -32,6 +33,8 @@ class CurrentLocationFragment : Fragment() {
     private val locationPermissionCode = 2
 
     private val REQUEST_LOCATION_PERMISSION = 1
+    private var listOfLatLong: MutableList<LatLng> = mutableListOf()
+    private var listOfMarkers: MutableList<Marker> = mutableListOf()
 
 
     lateinit var map: GoogleMap
@@ -59,13 +62,16 @@ class CurrentLocationFragment : Fragment() {
 
 
 
-                googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+//                googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+//                googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 11f))
+
             }
 
         }
 
 
+        setPoiClick(map)
 
 //        val sydney = LatLng(-34.0, 151.0)
 //        val sydney = latLng
@@ -91,6 +97,36 @@ class CurrentLocationFragment : Fragment() {
 
     }
 
+
+    //adding point of interest click listenener method
+    private fun setPoiClick(map: GoogleMap){
+        map.setOnPoiClickListener { poi->
+            Log.i("TAG", "setPoiClick: ${poi.latLng}")
+
+            //new marker
+            val poiMarket = map.addMarker(
+                MarkerOptions().position(poi.latLng).title(poi.name)
+            )
+            //if there is a marker already placed, remove it and add the new marker
+            if (!(listOfMarkers.isEmpty())){
+                val removedMarker = listOfMarkers.get(0)
+                removedMarker.remove()
+                listOfMarkers.removeAt(0)
+            }
+            listOfMarkers.add(poiMarket!!)
+
+
+
+
+
+            val cooardinates = poi.latLng
+
+            listOfLatLong.add(cooardinates)
+
+        }
+    }
+
+    //end of adding point of interest click listenener method
 
 
 
