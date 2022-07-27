@@ -13,9 +13,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example2.roomapp.R
+import com.example2.roomapp.databinding.FragmentCurrentLocationBinding
+import com.example2.roomapp.databinding.FragmentRemindersBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
@@ -26,8 +29,13 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
 
 class CurrentLocationFragment : Fragment() {
+
+    private var _binding:FragmentCurrentLocationBinding?=null
+    private val binding get() = _binding!!
+
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val locationPermissionCode = 2
@@ -83,10 +91,31 @@ class CurrentLocationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding= FragmentCurrentLocationBinding.inflate(inflater,container,false)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity().application)
 
-        return inflater.inflate(R.layout.fragment_current_location, container, false)
+
+        binding.buttonMapSave.setOnClickListener {
+            Log.i("TAG", "clicked on button ")
+
+            if (listOfMarkers.isEmpty()){
+                Log.i("TAG", "clicked on button in empty list ")
+                val snack = Snackbar.make(requireView(),"Please pick a location to save.",Snackbar.LENGTH_SHORT).setAction("Action", null)
+                snack.show()
+            }
+            else{
+                Log.i("TAG", "LIST OF MARKERS: ${listOfMarkers.get(0)} ")
+
+
+            }
+
+
+
+        }
+
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
