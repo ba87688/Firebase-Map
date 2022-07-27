@@ -141,6 +141,9 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:5.0.0'
 
 
+
+    implementation "com.google.android.gms:play-services-location:15.0.1"
+
     // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
 }

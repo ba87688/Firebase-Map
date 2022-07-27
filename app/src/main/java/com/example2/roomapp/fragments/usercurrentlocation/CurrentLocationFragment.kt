@@ -2,7 +2,10 @@ package com.example2.roomapp.fragments.usercurrentlocation
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
@@ -13,6 +16,8 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example2.roomapp.R
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -23,11 +28,15 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 class CurrentLocationFragment : Fragment() {
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val locationPermissionCode = 2
+
     private val REQUEST_LOCATION_PERMISSION = 1
 
 
     lateinit var map: GoogleMap
 
+    @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
         map = googleMap
         /**
@@ -41,9 +50,26 @@ class CurrentLocationFragment : Fragment() {
          */
         enableMyLocation()
 
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        fusedLocationClient.lastLocation.addOnSuccessListener { location :Location?->
+            if (location!=null){
+                Log.i("TAG", "Location latitude is : ${location.latitude.toString()} ")
+                Log.i("TAG", "Location latitude is : ${location.longitude.toString()} ")
+                val sydney = LatLng(location.latitude,location.longitude)
+
+
+
+
+                googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+            }
+
+        }
+
+
+
+//        val sydney = LatLng(-34.0, 151.0)
+//        val sydney = latLng
+
     }
 
     override fun onCreateView(
@@ -51,6 +77,9 @@ class CurrentLocationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity().application)
+
         return inflater.inflate(R.layout.fragment_current_location, container, false)
     }
 

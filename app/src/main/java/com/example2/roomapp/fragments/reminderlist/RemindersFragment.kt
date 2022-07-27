@@ -58,12 +58,12 @@ class RemindersFragment : Fragment() {
         val db = Room.databaseBuilder(activity?.applicationContext!!,RemindersDatabase::class.java,"reminders_database").allowMainThreadQueries().build()
 
         lifecycleScope.launch {
-//            db.reminderDao().insertReminder(Reminder("Hi","desceibe","er","33","rr","t"))
-//            db.reminderDao().insertReminder(Reminder("Tarzan","red","god","3","rr","tiger"))
-//            val r = db.reminderDao().getReminderById("t")
-//            Log.i("TAG", "onCreateView: $r")
-
-            db.reminderDao().deleteAllReminders()
+            db.reminderDao().insertReminder(Reminder("Hi","desceibe","er","33","rr","t"))
+            db.reminderDao().insertReminder(Reminder("Tarzan","red","god","3","rr","tiger"))
+            val r = db.reminderDao().getReminderById("t")
+            Log.i("TAG", "onCreateView: $r")
+//
+//            db.reminderDao().deleteAllReminders()
         }
 
 

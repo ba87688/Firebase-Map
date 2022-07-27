@@ -6,4 +6,5 @@
     <string name="looks_like_you_need_to_login">Welcome!\n\nLooks like you need to login.</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
+    <string name="save">SAVE</string>
 </resources>
