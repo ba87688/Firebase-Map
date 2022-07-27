@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -14,6 +15,8 @@ import com.example2.roomapp.R
 import com.example2.roomapp.data.Reminder
 import com.example2.roomapp.data.database.RemindersDatabase
 import com.example2.roomapp.databinding.FragmentSavingReminderObjectBinding
+import com.example2.roomapp.viewmodels.login.LoginViewModel
+import com.example2.roomapp.viewmodels.login.LoginViewModelFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
@@ -24,6 +27,10 @@ class SavingReminderFragment : Fragment() {
     private var _binding:FragmentSavingReminderObjectBinding?= null
     private val binding get() = _binding!!
 
+
+    private lateinit var viewModel: LoginViewModel
+
+
     val args: SavingReminderFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -32,6 +39,11 @@ class SavingReminderFragment : Fragment() {
     ): View? {
 
         _binding= FragmentSavingReminderObjectBinding.inflate(inflater,container,false)
+
+        val application = requireNotNull(this.activity).application
+        val dataSource = RemindersDatabase.getDatabase(application)
+        val viewModelFactory = LoginViewModelFactory(dataSource,application)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
 
         val reminder = args.reminder
@@ -51,14 +63,12 @@ class SavingReminderFragment : Fragment() {
                 snack.show()
             }else{
                 val reminderToSave = Reminder(binding.etReminderTitle.text.toString(),binding.etReminderDescription.text.toString(),reminder.title.toString(),reminder.latitude,reminder.longitude)
-                val db = Room.databaseBuilder(activity?.applicationContext!!,
-                    RemindersDatabase::class.java,"reminders_database").allowMainThreadQueries().build()
-                lifecycleScope.launch {
 
-                    db.reminderDao().insertReminder(reminderToSave)
+                viewModel.insertReminder(reminderToSave)
 
-                    Log.i("TAG", "onCreateView: SUCCESSFUL NINJA")
-                }
+                findNavController().navigate(SavingReminderFragmentDirections.actionSavingReminderFragmentToRemindersFragment())
+
+
 
 
 

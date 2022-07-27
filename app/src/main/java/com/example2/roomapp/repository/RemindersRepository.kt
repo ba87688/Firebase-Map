@@ -30,11 +30,6 @@ class RemindersRepository(private val database: RemindersDatabase) {
         }
 
 
-    suspend fun insertReminder(reminder:Reminder){
-        withContext(Dispatchers.IO){
-            reminderDao.insertReminder(reminder)
-        }
-    }
 
 
     suspend fun getReminder(id: String): Result<Reminder> = withContext(Dispatchers.IO) {
@@ -113,6 +108,17 @@ class RemindersRepository(private val database: RemindersDatabase) {
         }
     )
 
+
+    suspend fun deleteReminder(reminder: Reminder){
+        withContext(Dispatchers.IO){
+            database.reminderDao().delete(reminder)
+        }
+    }
+    suspend fun insertReminder(reminder: Reminder){
+        withContext(Dispatchers.IO){
+            database.reminderDao().insertReminder(reminder)
+        }
+    }
 
     suspend fun deleteAllReminders() {
         withContext(Dispatchers.IO) {

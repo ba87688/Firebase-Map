@@ -48,5 +48,11 @@
         <argument
             android:name="reminder"
             app:argType="com.example2.roomapp.data.Reminder" />
+        <action
+            android:id="@+id/action_savingReminderFragment_to_remindersFragment"
+            app:destination="@id/remindersFragment"
+            app:popUpTo="@+id/remindersFragment"
+            app:popUpToInclusive="true"/>
+
     </fragment>
 </navigation>

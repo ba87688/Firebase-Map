@@ -59,9 +59,9 @@ class RemindersFragment : Fragment() {
 
         lifecycleScope.launch {
 //            db.reminderDao().insertReminder(Reminder("Hi","desceibe","er","33","rr"))
-            db.reminderDao().insertReminder(Reminder("Tarzan","red","god","3","rr","tiger"))
-            val r = db.reminderDao().getReminderById("t")
-            Log.i("TAG", "onCreateView: $r")
+//            db.reminderDao().insertReminder(Reminder("Tarzan","red","god","3","rr","tiger"))
+//            val r = db.reminderDao().getReminderById("t")
+//            Log.i("TAG", "onCreateView: $r")
 //
 //            db.reminderDao().deleteAllReminders()
         }
