@@ -7,4 +7,6 @@
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="save">SAVE</string>
+    <string name="reminder_title">Reminder Title</string>
+    <string name="description">Description</string>
 </resources>
