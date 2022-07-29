@@ -51,18 +51,18 @@ class SavingReminderFragment : Fragment() {
         // Inflate the layout for this fragment
 
 //        val geo = LatLng(reminder.latitude?.toDouble()!!, reminder.longitude?.toDouble()!!)
-        binding.tvNameOfReminderLocation.text = reminder.title.toString()
-        binding.tvTitleOfReminder.text = "Reminder Location"
+        binding.tvNameOfReminderLocationEdit.text = reminder.title.toString()
+        binding.tvTitleOfReminderEdit.text = "Reminder Location"
 
 
 
         binding.floatingActionButtonSave.setOnClickListener {
 //            if (binding.etReminderTitle.text.isNotEmpty())
-            if (binding.etReminderTitle.text.isEmpty() || binding.etReminderDescription.text.isEmpty()){
+            if (binding.etReminderTitleEdit.text.isEmpty() || binding.etReminderDescriptionEdit.text.isEmpty()){
                 val snack = Snackbar.make(requireView(),"Please enter title and description.", Snackbar.LENGTH_SHORT).setAction("Action", null)
                 snack.show()
             }else{
-                val reminderToSave = Reminder(binding.etReminderTitle.text.toString(),binding.etReminderDescription.text.toString(),reminder.title.toString(),reminder.latitude,reminder.longitude)
+                val reminderToSave = Reminder(binding.etReminderTitleEdit.text.toString(),binding.etReminderDescriptionEdit.text.toString(),reminder.title.toString(),reminder.latitude,reminder.longitude)
 
                 viewModel.insertReminder(reminderToSave)
 

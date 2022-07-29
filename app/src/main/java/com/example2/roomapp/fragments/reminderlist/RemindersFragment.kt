@@ -2,6 +2,7 @@ package com.example2.roomapp.fragments.reminderlist
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -24,41 +25,47 @@ import com.example2.roomapp.viewmodels.login.LoginViewModelFactory
 import com.firebase.ui.auth.AuthUI
 import kotlinx.coroutines.launch
 
-class RemindersFragment : Fragment() , RemainderRecyclerViewAdapter.OnItemClickListener{
+class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickListener {
     private var _binding: FragmentRemindersBinding? = null
     private val binding get() = _binding!!
-//    private val viewModel : LoginViewModel by viewModels()
-    private lateinit var viewModel:LoginViewModel
+
+    //    private val viewModel : LoginViewModel by viewModels()
+    private lateinit var viewModel: LoginViewModel
     private val REQUEST_LOCATION_PERMISSION = 1
     var i = 0
 
-    var list2:List<Reminder> = mutableListOf()
-
+    var list2: List<Reminder> = mutableListOf()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding= FragmentRemindersBinding.inflate(inflater,container,false)
+        _binding = FragmentRemindersBinding.inflate(inflater, container, false)
 
 
         val application = requireNotNull(this.activity).application
         val dataSource = RemindersDatabase.getDatabase(application)
-        val viewModelFactory = LoginViewModelFactory(dataSource,application)
+        val viewModelFactory = LoginViewModelFactory(dataSource, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
 
 
         enableMyLocation()
+        enableMyLocation2()
 
 
-        val db = Room.databaseBuilder(activity?.applicationContext!!,RemindersDatabase::class.java,"reminders_database").allowMainThreadQueries().build()
+        val db = Room.databaseBuilder(
+            activity?.applicationContext!!,
+            RemindersDatabase::class.java,
+            "reminders_database"
+        ).allowMainThreadQueries().build()
 
         lifecycleScope.launch {
 //            db.reminderDao().insertReminder(Reminder("Hi","desceibe","er","33","rr"))
@@ -83,18 +90,19 @@ class RemindersFragment : Fragment() , RemainderRecyclerViewAdapter.OnItemClickL
 
         }
 
-        viewModel.restaurants.observe(viewLifecycleOwner, Observer {it->
+        viewModel.restaurants.observe(viewLifecycleOwner, Observer { it ->
             list2 = it.data!!
             val list = it.data
             val size = list?.size
             Log.i("TAG", "LIST SIZE : $size ")
-            if(list !=null){
-                binding.reminderRecyclerView.adapter = RemainderRecyclerViewAdapter(list,this@RemindersFragment)
+            if (list != null) {
+                binding.reminderRecyclerView.adapter =
+                    RemainderRecyclerViewAdapter(list, this@RemindersFragment)
             }
-            if(list?.size==0 ||list==null) {
+            if (list?.size == 0 || list == null) {
                 Log.i("TAG", "went in : $size ")
 
-                if (i<1) {
+                if (i < 1) {
                     binding.reminderRecyclerView.visibility = View.GONE
                     binding.frameLayout.visibility = View.GONE
                     val imageView = ImageView(this@RemindersFragment.context)
@@ -120,7 +128,6 @@ class RemindersFragment : Fragment() , RemainderRecyclerViewAdapter.OnItemClickL
 //            }
 
 
-
 //            Log.i("TAG", "onCreateView: creating things ${obser.id} ")
         })
 
@@ -129,65 +136,108 @@ class RemindersFragment : Fragment() , RemainderRecyclerViewAdapter.OnItemClickL
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main_menu,menu)
+        inflater.inflate(R.menu.main_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-        if (id == R.id.logout_menu_item){
+        if (id == R.id.logout_menu_item) {
             Log.i("TAG", "onOptionsItemSelected: before he hit the ground")
             AuthUI.getInstance().signOut(requireContext())
 
-            viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticateState->
-                when(authenticateState){
-                    LoginViewModel.AuthenticationState.AUTHENTICATED->{
-                        Log.i("TAG", "onOptionsItemSelected: dude is auth")
-                    }
-                    LoginViewModel.AuthenticationState.UNAUTHENTICATED->{
+            viewModel.authenticationState.observe(
+                viewLifecycleOwner,
+                Observer { authenticateState ->
+                    when (authenticateState) {
+                        LoginViewModel.AuthenticationState.AUTHENTICATED -> {
+                            Log.i("TAG", "onOptionsItemSelected: dude is auth")
+                        }
+                        LoginViewModel.AuthenticationState.UNAUTHENTICATED -> {
 //                        findNavController().navigate(R.id.loginFragment)
-                        findNavController().navigate(RemindersFragmentDirections.actionRemindersFragmentToLoginFragment())
+                            findNavController().navigate(RemindersFragmentDirections.actionRemindersFragmentToLoginFragment())
 
+
+                        }
 
                     }
 
-                }
-
-            })
+                })
         }
         return super.onOptionsItemSelected(item)
     }
 
 
-
-
-
-
-
-    private fun isPermissionGranted() : Boolean {
+    private fun isPermissionGranted(): Boolean {
         return ContextCompat.checkSelfPermission(
             this@RemindersFragment.requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION) === PackageManager.PERMISSION_GRANTED
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) === PackageManager.PERMISSION_GRANTED
+//                &&
+//                ContextCompat.checkSelfPermission(
+//                    this@RemindersFragment.requireContext(),
+//                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+//                ) === PackageManager.PERMISSION_GRANTED
+
     }
+
     private fun enableMyLocation() {
         if (isPermissionGranted()) {
 //            map.setMyLocationEnabled(true)
             Log.i("TAG", "enableMyLocation: permission is granted")
-        }
-        else {
+        } else {
             ActivityCompat.requestPermissions(
                 this@RemindersFragment.requireActivity(),
                 arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
                 REQUEST_LOCATION_PERMISSION
             )
+            ActivityCompat.requestPermissions(
+                this@RemindersFragment.requireActivity(),
+                arrayOf<String>(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+                REQUEST_LOCATION_PERMISSION
+            )
         }
     }
+    private fun isPermissionGranted2(): Boolean {
+        val granted=  ContextCompat.checkSelfPermission(
+                    this@RemindersFragment.requireContext(),
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                ) === PackageManager.PERMISSION_GRANTED
+        Log.i("TAG", "enableMyLocation: permission is? $granted")
 
+        return granted
+
+    }
+
+    private fun enableMyLocation2() {
+        if (isPermissionGranted2()) {
+//            map.setMyLocationEnabled(true)
+            Log.i("TAG", "enableMyLocation2: permission is granted")
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                ActivityCompat.requestPermissions(
+                    this@RemindersFragment.requireActivity(),
+                    arrayOf(
+                        Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                    ),
+                    11
+                )
+            } else {
+                ActivityCompat.requestPermissions(
+                    this@RemindersFragment.requireActivity(),
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    REQUEST_LOCATION_PERMISSION
+                )
+            }
+
+        }
+    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
-        grantResults: IntArray) {
+        grantResults: IntArray
+    ) {
         // Check if location permissions are granted and if so enable the
         // location data layer.
         if (requestCode == REQUEST_LOCATION_PERMISSION) {
