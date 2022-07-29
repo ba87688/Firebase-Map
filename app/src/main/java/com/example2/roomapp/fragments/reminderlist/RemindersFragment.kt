@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -103,12 +104,13 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
                 Log.i("TAG", "went in : $size ")
 
                 if (i < 1) {
-                    binding.reminderRecyclerView.visibility = View.GONE
-                    binding.frameLayout.visibility = View.GONE
+//                    binding.reminderRecyclerView.visibility = View.GONE
+//                    binding.frameLayout.visibility = View.GONE
                     val imageView = ImageView(this@RemindersFragment.context)
                     imageView.setImageResource(R.drawable.ic_no_data)
-                    binding.reminderLinearView.gravity = Gravity.CENTER
-                    binding.reminderLinearView.addView(imageView)
+                    binding.frameLayout.addView(imageView)
+//                    binding.reminderLinearView.gravity = Gravity.CENTER
+//                    binding.reminderLinearView.addView(imageView)
                     Log.i("TAG", "onCreateView: this list is empty ")
                     i = i + 1
                 }
