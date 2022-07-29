@@ -42,11 +42,18 @@ class GeofenceHelper(context:Context): ContextWrapper(context) {
             Log.i(TAG, "getPendingIntent: error")
             return pendingIntenta
         }
-        val intent = Intent(this,GeofenceBroadcastReceiver::class.java)
-//
-        pendingIntenta = PendingIntent.getBroadcast(this,2607,intent,PendingIntent.FLAG_UPDATE_CURRENT)
-        return pendingIntenta
+        val geofencingPendingIntnet:PendingIntent by lazy {
+            val intent = Intent(this,GeofenceBroadcastReceiver::class.java)
+            intent.action = "PendingIntent.FLAG_UPDATE_CURRENT"
+            PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT)
 
+        }
+//        val intent = Intent(this,GeofenceBroadcastReceiver::class.java)
+
+//
+//        pendingIntenta = PendingIntent.getBroadcast(this,2607,intent,PendingIntent.FLAG_UPDATE_CURRENT)
+//        return pendingIntenta
+return geofencingPendingIntnet
 
     }
 

@@ -73,15 +73,19 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
 
 
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+
+            val sydney = LatLng(37.49, -122.2555)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 11f))
+
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 11f))
             if (location != null) {
-                Log.i("TAG", "Location latitude is : ${location.latitude.toString()} ")
-                Log.i("TAG", "Location latitude is : ${location.longitude.toString()} ")
-                val sydney = LatLng(location.latitude, location.longitude)
+//                Log.i("TAG", "Location latitude is : ${location.latitude.toString()} ")
+//                Log.i("TAG", "Location latitude is : ${location.longitude.toString()} ")
+//                val sydney = LatLng(location.latitude, location.longitude)
+//
+//                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 11f))
 
 
-//                googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//                googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 11f))
 
             }
 

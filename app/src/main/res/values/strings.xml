@@ -9,4 +9,6 @@
     <string name="save">SAVE</string>
     <string name="reminder_title">Reminder Title</string>
     <string name="description">Description</string>
+    <string name="broadcast_notification_channel_id">"You Entered an area "</string>
+    <string name="entered_string">you entering</string>
 </resources>
