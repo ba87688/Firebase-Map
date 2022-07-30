@@ -21,6 +21,7 @@ import com.example2.roomapp.adapter.RemainderRecyclerViewAdapter
 import com.example2.roomapp.data.Reminder
 import com.example2.roomapp.data.database.RemindersDatabase
 import com.example2.roomapp.databinding.FragmentRemindersBinding
+import com.example2.roomapp.fragments.savingfragment.SavingReminderFragmentDirections
 import com.example2.roomapp.viewmodels.login.LoginViewModel
 import com.example2.roomapp.viewmodels.login.LoginViewModelFactory
 import com.firebase.ui.auth.AuthUI
@@ -255,6 +256,12 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
 
         //get the reminder that is clicked on
         val reminder = list2.get(position)
+        val nav = findNavController()
+        Log.i("TAG", "enableMyLocation: position $reminder.id" )
+
+
+        nav.navigate(RemindersFragmentDirections.actionRemindersFragmentToEditReminderFragment(reminder))
+
     }
 
 

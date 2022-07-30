@@ -30,6 +30,10 @@
             android:id="@+id/action_remindersFragment_to_currentlocationfragment"
             app:destination="@id/currentLocationFragment"/>
 
+        <action
+            android:id="@+id/action_remindersFragment_to_editReminderFragment"
+            app:destination="@id/editReminderFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/currentLocationFragment"
@@ -54,5 +58,19 @@
             app:popUpTo="@+id/remindersFragment"
             app:popUpToInclusive="true"/>
 
+    </fragment>
+    <fragment
+        android:id="@+id/editReminderFragment"
+        android:name="com.example2.roomapp.fragments.reminderlist.detaileditreminder.EditReminderFragment"
+        android:label="fragment_edit_reminder"
+        tools:layout="@layout/fragment_edit_reminder" >
+        <argument
+            android:name="reminder_to_edit"
+            app:argType="com.example2.roomapp.data.Reminder" />
+        <action
+            android:id="@+id/action_editReminderFragment_to_remindersFragment"
+            app:destination="@id/remindersFragment"
+            app:popUpTo="@+id/remindersFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 </navigation>
