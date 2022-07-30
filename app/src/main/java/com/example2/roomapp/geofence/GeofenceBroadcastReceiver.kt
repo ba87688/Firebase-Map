@@ -15,6 +15,8 @@ import com.example2.roomapp.R
 import com.example2.roomapp.util.notifications.CHANNEL_ID
 import com.example2.roomapp.util.notifications.NOTIFICATION_ID
 import com.example2.roomapp.util.notifications.NotificationChannel
+import com.google.android.gms.location.Geofence
+import com.google.android.gms.location.GeofencingEvent
 
 class GeofenceBroadcastReceiver : BroadcastReceiver() {
 
@@ -25,6 +27,20 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
 
         val app = context
 
+        val geofencer = GeofencingEvent.fromIntent(intent)
+        if (geofencer.hasError()){
+            Log.i(TAG, "onReceive: error receiving geofence event...")
+            return
+        }
+        val geofenceList = geofencer.triggeringGeofences
+        val transitionType = geofencer.geofenceTransition
+
+        when(transitionType){
+            Geofence.GEOFENCE_TRANSITION_ENTER -> Log.i(TAG, "onReceive: YOU FREAKIN ENTERED") 
+            Geofence.GEOFENCE_TRANSITION_EXIT -> Log.i(TAG, "onReceive: YOU FREAKIN EXITED")
+            else -> Log.i(TAG, "onReceive: WTF")
+
+        }
 
         val notice = NotificationChannel(context)
         //create a channel. only needed once
