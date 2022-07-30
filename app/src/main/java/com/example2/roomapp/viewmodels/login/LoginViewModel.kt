@@ -50,4 +50,7 @@ class LoginViewModel(val database: RemindersDatabase, application: Application):
             repository.insertReminder(reminder)
         }
     }
+
+
+
 }

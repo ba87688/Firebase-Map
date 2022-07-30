@@ -15,12 +15,14 @@ import android.view.*
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example2.roomapp.R
 import com.example2.roomapp.data.Reminder
 import com.example2.roomapp.databinding.FragmentCurrentLocationBinding
 import com.example2.roomapp.databinding.FragmentRemindersBinding
 import com.example2.roomapp.geofence.GeofenceHelper
+import com.example2.roomapp.viewmodels.reminderlocation.LocationViewModel
 import com.google.android.gms.location.*
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -37,6 +39,7 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
     private var _binding: FragmentCurrentLocationBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var viewModel:LocationViewModel
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val locationPermissionCode = 2
@@ -111,6 +114,9 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
         _binding = FragmentCurrentLocationBinding.inflate(inflater, container, false)
 
 
+        viewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
+        Log.i("TAG", "onCreateView: Evan ${viewModel.number.toString()} ")
+
 
         fusedLocationClient =
             LocationServices.getFusedLocationProviderClient(requireActivity().application)
@@ -140,6 +146,10 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
                     currentPoi.latLng.longitude.toString(),
                     currentPoi.placeId
                 )
+
+                val ltlong = LatLng(currentPoi.latLng.latitude,currentPoi.latLng.longitude)
+                addGeofence(ltlong,RADIUS_OF_CIRCULE.toFloat(),currentPoi.placeId)
+
 //                listOfPoi.clear()
 //                listOfMarkers.clear()
                 nav.navigate(
@@ -175,6 +185,10 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
             val poiMarket = map.addMarker(
                 MarkerOptions().position(poi.latLng).title(poi.name)
             )
+
+            //add circle
+            addCircle(poi.latLng, RADIUS_OF_CIRCULE.toDouble())
+
             //if there is a marker already placed, remove it and add the new marker
             if (!(listOfMarkers.isEmpty())) {
                 val removedMarker = listOfMarkers.get(0)
@@ -186,6 +200,9 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
             }
             listOfMarkers.add(poiMarket!!)
             listOfPoi.add(poi)
+
+
+
 
 
         }
@@ -237,10 +254,10 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
 
 
     override fun onMapLongClick(p0: LatLng) {
-        map.clear()
-        addMarket(p0)
-        addCircle(p0, RADIUS_OF_CIRCULE.toDouble())
-        addGeofence(p0,RADIUS_OF_CIRCULE.toFloat())
+//        map.clear()
+//        addMarket(p0)
+//        addCircle(p0, RADIUS_OF_CIRCULE.toDouble())
+//        addGeofence(p0,RADIUS_OF_CIRCULE.toFloat(),GEOFENCE_ID)
 
 
     }
@@ -262,9 +279,9 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
 
     }
     @SuppressLint("MissingPermission")
-    private fun addGeofence(latLng: LatLng, radius: Float){
+    private fun addGeofence(latLng: LatLng, radius: Float, id:String ){
 
-        val geofence=geofenceHelper.getGeofence(GEOFENCE_ID,latLng,radius,Geofence.GEOFENCE_TRANSITION_ENTER)
+        val geofence=geofenceHelper.getGeofence(id,latLng,radius,Geofence.GEOFENCE_TRANSITION_ENTER)
         val geofenceRequest = geofenceHelper.getGeoFencingRequest(geofence!!)
         val pendingInt = geofenceHelper.getPendingIntent()
         geofencingClient.addGeofences(geofenceRequest, pendingInt)
@@ -273,9 +290,49 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
             })
             .addOnFailureListener(OnFailureListener {
                 Log.i("TAG", "Geofence failure: ")
-
             })
+    }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //trying to remove geofence
+    private fun removeGeofences() {
+
+
+        geofencingClient.removeGeofences(geofenceHelper.getPendingIntent())?.run {
+            addOnSuccessListener {
+                Log.d("TAG", "Remove the geofence")
+
+            }
+            addOnFailureListener {
+                Log.d("TAG", "Removed geofence failed")
+            }
+        }
     }
 
 
@@ -304,8 +361,6 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
                 true
             }
             else -> super.onOptionsItemSelected(item)
-
-
     }
 
 

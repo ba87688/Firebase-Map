@@ -21,7 +21,8 @@ import com.google.android.gms.location.GeofencingEvent
 class GeofenceBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
+
+            // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
         Log.i(TAG, "onReceive: Geofence broadcast")
         Log.i(TAG, "onReceive: Geofence broadcast ${intent.action}")
 

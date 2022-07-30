@@ -59,6 +59,7 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
 
 
 
+
         enableMyLocation()
         enableMyLocation2()
 
