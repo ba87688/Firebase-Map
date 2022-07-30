@@ -55,12 +55,14 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
     private val GEOFENCE_ID = "SOME_GEOFENCE_ID"
     private lateinit var geofenceHelper: GeofenceHelper
 
+    var mapCircle: Circle? = null
 
 
     lateinit var map: GoogleMap
 
     @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
+        googleMap.clear()
         map = googleMap
 
         enableMyLocation()
@@ -91,7 +93,6 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
             }
 
         }
-
 
         setPoiClick(map)
 
@@ -181,6 +182,7 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
         map.setOnPoiClickListener { poi ->
             Log.i("TAG", "setPoiClick: ${poi.latLng}")
 
+            map.clear()
             //new marker
             val poiMarket = map.addMarker(
                 MarkerOptions().position(poi.latLng).title(poi.name)
@@ -275,6 +277,7 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
         circleOptions.strokeColor(Color.argb(255, 255, 0, 0))
         circleOptions.fillColor(Color.argb(66, 255, 0, 0))
         circleOptions.strokeWidth(4F)
+
         map.addCircle(circleOptions)
 
     }
