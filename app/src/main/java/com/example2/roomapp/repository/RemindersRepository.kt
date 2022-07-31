@@ -15,12 +15,12 @@ import org.json.JSONObject
 
 
 
-class RemindersRepository(private val database: RemindersDatabase) {
-    val reminderDao: RemainderDao = database.reminderDao()
-//    val astroids: LiveData<List<Reminder>> = reminderDao.getAllReminders()
-    val astroids: Flow<List<Reminder>> = reminderDao.getAllReminders3()
+class RemindersRepository(private val database: RemindersDatabase) :ReminderRepo{
 
-    suspend fun getReminders():Result<List<Reminder>> =
+
+    val reminderDao: RemainderDao = database.reminderDao()
+
+    override suspend fun getReminders():Result<List<Reminder>> =
         withContext(Dispatchers.IO){
             return@withContext try {
                 Result.Success(reminderDao.getReminders())
@@ -32,7 +32,7 @@ class RemindersRepository(private val database: RemindersDatabase) {
 
 
 
-    suspend fun getReminder(id: String): Result<Reminder> = withContext(Dispatchers.IO) {
+    override suspend fun getReminder(id: String): Result<Reminder> = withContext(Dispatchers.IO) {
         try {
             val reminder = reminderDao.getReminderById(id)
             if (reminder != null) {
@@ -78,49 +78,20 @@ class RemindersRepository(private val database: RemindersDatabase) {
         }
     )
 
-    fun getReminders3() = networkBoundResource(
-        query = {
-
-            reminderDao.getAllReminders3()
-        },
-        fetch = {
-            var pr : ArrayList<Reminder> = arrayListOf()
-//            withContext(Dispatchers.IO) {
-//                val formattedDateList = getRealParsedResponse()
-//
-//
-//                val data = service.getAstroids3(formattedDateList.first(),formattedDateList.last())
-//                val you = Gson().toJson(data)
-//                val you1 = JSONObject(you)
-//                val pr1 = parseAsteroidsJsonResult(you1)
-//                withContext(Dispatchers.IO){
-//                    pr= pr1
-//                }
-//            }
-            pr
-        },
-        saveFetchResult = { astroid->
-
-//            reminderDao.withTransaction {
-//                database.assDatabaseDao.deleteAllAstroids()
-//                database.assDatabaseDao.insertList(astroid)
-//            }
-        }
-    )
 
 
-    suspend fun deleteReminder(reminder: Reminder){
+    override suspend fun deleteReminder(reminder: Reminder){
         withContext(Dispatchers.IO){
             database.reminderDao().delete(reminder)
         }
     }
-    suspend fun insertReminder(reminder: Reminder){
+    override suspend fun insertReminder(reminder: Reminder){
         withContext(Dispatchers.IO){
             database.reminderDao().insertReminder(reminder)
         }
     }
 
-    suspend fun deleteAllReminders() {
+    override suspend fun deleteAllReminders() {
         withContext(Dispatchers.IO) {
             reminderDao.deleteAllReminders()
         }
