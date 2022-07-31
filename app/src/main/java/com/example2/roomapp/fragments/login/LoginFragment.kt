@@ -23,25 +23,25 @@ import com.google.firebase.auth.FirebaseAuth
 
 
 class LoginFragment : Fragment() {
-    private var _binding:FragmentLoginBinding? = null
+    private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     val SIGN_IN_REQUEST_CODE = -1
 
 
 //    private val viewModel : LoginViewModel by viewModels()
 
-    private lateinit var viewModel:LoginViewModel
+    private lateinit var viewModel: LoginViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentLoginBinding.inflate(inflater,container,false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         val application = requireNotNull(this.activity).application
         val dataSource = RemindersDatabase.getDatabase(application)
-        val viewModelFactory = LoginViewModelFactory(dataSource,application)
+        val viewModelFactory = LoginViewModelFactory(dataSource, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 //        val viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
@@ -49,12 +49,23 @@ class LoginFragment : Fragment() {
 
 
 
+        viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticateState ->
+            when (authenticateState) {
+                LoginViewModel.AuthenticationState.AUTHENTICATED -> {
+                    findNavController().navigate(R.id.remindersFragment)
 
-        val nav = findNavController()
+                }
+                LoginViewModel.AuthenticationState.UNAUTHENTICATED -> {
+                    Log.i("BE WIFEY", "onCreateView: he is not logged in yet")
+                }
+            }
 
-        isUserLoggedIn()
+        })
 
-        observeAuthenticationState()
+
+//        isUserLoggedIn()
+
+//        observeAuthenticationState()
         binding.buttonLogin.setOnClickListener {
             Log.i("TAG", "onCreateView: Clicked on a button")
             //give users sign in ability with email or gmail.
@@ -88,14 +99,16 @@ class LoginFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == SIGN_IN_REQUEST_CODE){
+        if (requestCode == SIGN_IN_REQUEST_CODE) {
             val response = IdpResponse.fromResultIntent(data)
-            if (resultCode == Activity.RESULT_OK){
-                Log.i("TAG", "onActivityResult: successful ${FirebaseAuth.getInstance().currentUser?.displayName}")
+            if (resultCode == Activity.RESULT_OK) {
+                Log.i(
+                    "TAG",
+                    "onActivityResult: successful ${FirebaseAuth.getInstance().currentUser?.displayName}"
+                )
 //                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRemindersFragment())
                 findNavController().navigate(R.id.remindersFragment)
-            }
-            else{
+            } else {
 
                 Log.i("TAG", "Sign in unsuccessful ${response?.error?.errorCode}")
 
@@ -104,36 +117,36 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun isUserLoggedIn(){
+//    private fun isUserLoggedIn(){
+//
+//        viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticateState->
+//            when(authenticateState){
+//                LoginViewModel.AuthenticationState.AUTHENTICATED->{
+//                    findNavController().navigate(R.id.remindersFragment)
+//
+//                }
+//            }
+//
+//        })
+//    }
 
-        viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticateState->
-            when(authenticateState){
-                LoginViewModel.AuthenticationState.AUTHENTICATED->{
-                    findNavController().navigate(R.id.remindersFragment)
 
-                }
-            }
-
-        })
-    }
-
-
-    private fun observeAuthenticationState(){
+    private fun observeAuthenticationState() {
 //        val factToDisplay = viewModel.getFactToDisplay(requireContext())
 
         viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticationState ->
-            when(authenticationState){
+            when (authenticationState) {
 
-                LoginViewModel.AuthenticationState.AUTHENTICATED->{
+                LoginViewModel.AuthenticationState.AUTHENTICATED -> {
                     Log.i("TAG", "observeAuthenticationState: THE STATE")
-                    val name =  FirebaseAuth.getInstance().currentUser?.displayName
+                    val name = FirebaseAuth.getInstance().currentUser?.displayName
                     Log.i("TAG", "observeAuthenticationState: THE STATE $name")
-                    binding.buttonLogin.text ="logout"
+                    binding.buttonLogin.text = "logout"
                     binding.buttonLogin.setOnClickListener {
                         AuthUI.getInstance().signOut(requireContext())
                     }
                 }
-                else ->{
+                else -> {
 
                     //not logged in
                     //set text of button,on click
