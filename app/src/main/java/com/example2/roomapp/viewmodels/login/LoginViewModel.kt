@@ -17,17 +17,10 @@ class LoginViewModel(val database: RemindersDatabase, application: Application):
 
 //    val restaurants = repository.astroids().asLiveData()
 //    val restaurants = repository.reminderDao.getAllReminders2().asLiveData()
-    val restaurants = repository.getRestaurants().asLiveData()
+      val restaurants = repository.getRestaurants().asLiveData()
 //    val astroids: Flow<List<Reminder>> = repository.getReminders3()
 
 
-    companion object{
-        val androidFacts = arrayOf(
-            "loser",
-            "losing",
-            "winning"
-        )
-    }
     enum class AuthenticationState{
         AUTHENTICATED, UNAUTHENTICATED
     }
