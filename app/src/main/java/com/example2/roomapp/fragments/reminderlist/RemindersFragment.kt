@@ -64,11 +64,11 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
         enableMyLocation2()
 
 
-        val db = Room.databaseBuilder(
-            activity?.applicationContext!!,
-            RemindersDatabase::class.java,
-            "reminders_database"
-        ).allowMainThreadQueries().build()
+//        val db = Room.databaseBuilder(
+//            activity?.applicationContext!!,
+//            RemindersDatabase::class.java,
+//            "reminders_database"
+//        ).allowMainThreadQueries().build()
 
         lifecycleScope.launch {
 //            db.reminderDao().insertReminder(Reminder("Hi","desceibe","er","33","rr"))

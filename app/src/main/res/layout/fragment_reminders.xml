@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/reminder_linear_view"
     android:layout_width="match_parent"
+    android:background="@color/colorPinked"
     android:layout_height="match_parent"
     tools:context=".fragments.reminderlist.RemindersFragment">
 

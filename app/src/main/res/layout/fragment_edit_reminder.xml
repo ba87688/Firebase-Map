@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/colorPinked"
     android:layout_height="match_parent"
     tools:context=".fragments.reminderlist.detaileditreminder.EditReminderFragment">
 
@@ -12,6 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:gravity="center"
+        android:textColor="@color/colorPink"
+        android:fontFamily="casual"
+        android:textSize="23sp"
+
         android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -24,7 +29,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
+        android:textColor="@color/colorPink"
         android:gravity="center"
+        android:fontFamily="casual"
+        android:textSize="23sp"
+
         android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -46,6 +55,10 @@
         android:id="@+id/edit_place_of_reminder"
         android:layout_width="52dp"
         android:layout_height="16dp"
+        android:textColor="@color/colorPink"
+        android:fontFamily="casual"
+        android:textSize="23sp"
+
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
