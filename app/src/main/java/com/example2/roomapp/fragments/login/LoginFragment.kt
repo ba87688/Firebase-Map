@@ -27,24 +27,18 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
     val SIGN_IN_REQUEST_CODE = -1
 
-
-//    private val viewModel : LoginViewModel by viewModels()
-
     private lateinit var viewModel: LoginViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         val application = requireNotNull(this.activity).application
         val dataSource = RemindersDatabase.getDatabase(application)
         val viewModelFactory = LoginViewModelFactory(dataSource, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
-//        val viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-
 
 
 
@@ -62,23 +56,12 @@ class LoginFragment : Fragment() {
 
         })
 
-
-//        isUserLoggedIn()
-
-//        observeAuthenticationState()
         binding.buttonLogin.setOnClickListener {
-            Log.i("TAG", "onCreateView: Clicked on a button")
-            //give users sign in ability with email or gmail.
-            //if user choose email, they need a password too
             val providers = arrayListOf(
                 AuthUI.IdpConfig.EmailBuilder().build(),
                 AuthUI.IdpConfig.GoogleBuilder().build()
             )
 
-
-            //create and lanuch sign in intent
-            //listen to response of this activity
-            //sign in code
             startActivityForResult(
                 AuthUI.getInstance()
                     .createSignInIntentBuilder()
@@ -89,9 +72,6 @@ class LoginFragment : Fragment() {
 
         }
 
-//        viewModel.restaurants.observe(viewLifecycleOwner, Observer { obser->
-//            Log.i("TAG", "onCreateView: creating things ${obser.id} ")
-//        })
 
 
         return binding.root
@@ -102,11 +82,6 @@ class LoginFragment : Fragment() {
         if (requestCode == SIGN_IN_REQUEST_CODE) {
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK) {
-                Log.i(
-                    "TAG",
-                    "onActivityResult: successful ${FirebaseAuth.getInstance().currentUser?.displayName}"
-                )
-//                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRemindersFragment())
                 findNavController().navigate(R.id.remindersFragment)
             } else {
 
@@ -117,22 +92,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-//    private fun isUserLoggedIn(){
-//
-//        viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticateState->
-//            when(authenticateState){
-//                LoginViewModel.AuthenticationState.AUTHENTICATED->{
-//                    findNavController().navigate(R.id.remindersFragment)
-//
-//                }
-//            }
-//
-//        })
-//    }
-
-
     private fun observeAuthenticationState() {
-//        val factToDisplay = viewModel.getFactToDisplay(requireContext())
 
         viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticationState ->
             when (authenticationState) {

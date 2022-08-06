@@ -6,7 +6,7 @@ import com.example2.roomapp.data.database.networkBoundResource
 
 interface ReminderRepo {
 
-    suspend fun getReminders():Result<List<Reminder>>
+    suspend fun getReminders(): Result<List<Reminder>>
 
     suspend fun getReminder(id: String): Result<Reminder>
 
@@ -18,4 +18,4 @@ interface ReminderRepo {
     suspend fun deleteAllReminders()
 
 
-    }
+}

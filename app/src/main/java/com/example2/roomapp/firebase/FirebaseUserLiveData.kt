@@ -13,14 +13,13 @@ class FirebaseUserLiveData : LiveData<FirebaseUser>() {
 
     }
 
-    override fun onActive(){
+    override fun onActive() {
         firebaseUser.addAuthStateListener(authStateListener)
     }
 
     override fun onInactive() {
         firebaseUser.removeAuthStateListener(authStateListener)
     }
-
 
 
 }

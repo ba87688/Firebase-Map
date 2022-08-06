@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.app.ActivityCompat
@@ -31,7 +32,6 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
     private var _binding: FragmentRemindersBinding? = null
     private val binding get() = _binding!!
 
-    //    private val viewModel : LoginViewModel by viewModels()
     private lateinit var viewModel: LoginViewModel
     private val REQUEST_LOCATION_PERMISSION = 1
     var i = 0
@@ -48,7 +48,6 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentRemindersBinding.inflate(inflater, container, false)
 
 
@@ -63,33 +62,9 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
         enableMyLocation()
         enableMyLocation2()
 
-
-//        val db = Room.databaseBuilder(
-//            activity?.applicationContext!!,
-//            RemindersDatabase::class.java,
-//            "reminders_database"
-//        ).allowMainThreadQueries().build()
-
-        lifecycleScope.launch {
-//            db.reminderDao().insertReminder(Reminder("Hi","desceibe","er","33","rr"))
-//            db.reminderDao().insertReminder(Reminder("Tarzan","red","god","3","rr","tiger"))
-//            val r = db.reminderDao().getReminderById("t")
-//            Log.i("TAG", "onCreateView: $r")
-//
-//            db.reminderDao().deleteAllReminders()
-        }
-
-
-
-
-
-
-
         binding.floatingActionButton.setOnClickListener {
-            Log.i("TAG", "onCreateView: clicking on the floating action buttom")
             val controller = findNavController()
             controller.navigate(RemindersFragmentDirections.actionRemindersFragmentToCurrentlocationfragment())
-            Log.i("TAG", "onCreateView: clicking on the floating action LEAVING")
 
         }
 
@@ -103,36 +78,15 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
                     RemainderRecyclerViewAdapter(list, this@RemindersFragment)
             }
             if (list?.size == 0 || list == null) {
-                Log.i("TAG", "went in : $size ")
-
                 if (i < 1) {
-//                    binding.reminderRecyclerView.visibility = View.GONE
-//                    binding.frameLayout.visibility = View.GONE
                     val imageView = ImageView(this@RemindersFragment.context)
                     imageView.setImageResource(R.drawable.ic_no_data)
                     binding.frameLayout.addView(imageView)
-//                    binding.reminderLinearView.gravity = Gravity.CENTER
-//                    binding.reminderLinearView.addView(imageView)
-                    Log.i("TAG", "onCreateView: this list is empty ")
                     i = i + 1
                 }
 
             }
 
-//            else{
-//
-//                binding.reminderRecyclerView.visibility= View.GONE
-//                val imageView:ImageView = ImageView(this@RemindersFragment.context)
-//                imageView.setImageResource(R.drawable.ic_no_data)
-//                binding.reminderLinearView.gravity = Gravity.CENTER
-//                binding.reminderLinearView.addView(imageView)
-//                Log.i("TAG", "onCreateView: this list is empty ")
-//
-//
-//            }
-
-
-//            Log.i("TAG", "onCreateView: creating things ${obser.id} ")
         })
 
 
@@ -147,7 +101,6 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == R.id.logout_menu_item) {
-            Log.i("TAG", "onOptionsItemSelected: before he hit the ground")
             AuthUI.getInstance().signOut(requireContext())
 
             viewModel.authenticationState.observe(
@@ -155,10 +108,8 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
                 Observer { authenticateState ->
                     when (authenticateState) {
                         LoginViewModel.AuthenticationState.AUTHENTICATED -> {
-                            Log.i("TAG", "onOptionsItemSelected: dude is auth")
                         }
                         LoginViewModel.AuthenticationState.UNAUTHENTICATED -> {
-//                        findNavController().navigate(R.id.loginFragment)
                             findNavController().navigate(RemindersFragmentDirections.actionRemindersFragmentToLoginFragment())
 
 
@@ -187,8 +138,6 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
 
     private fun enableMyLocation() {
         if (isPermissionGranted()) {
-//            map.setMyLocationEnabled(true)
-            Log.i("TAG", "enableMyLocation: permission is granted")
         } else {
             ActivityCompat.requestPermissions(
                 this@RemindersFragment.requireActivity(),
@@ -252,13 +201,9 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
     }
 
     override fun onItemClick(position: Int) {
-
-        Log.i("TAG", "enableMyLocation: position $position")
-
         //get the reminder that is clicked on
         val reminder = list2.get(position)
         val nav = findNavController()
-        Log.i("TAG", "enableMyLocation: position $reminder.id" )
 
 
         nav.navigate(RemindersFragmentDirections.actionRemindersFragmentToEditReminderFragment(reminder))

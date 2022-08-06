@@ -15,11 +15,7 @@ import kotlinx.coroutines.launch
 class LoginViewModel(val database: RemindersDatabase, application: Application): AndroidViewModel(application) {
     private var repository: RemindersRepository = RemindersRepository(database)
 
-//    val restaurants = repository.astroids().asLiveData()
-//    val restaurants = repository.reminderDao.getAllReminders2().asLiveData()
       val restaurants = repository.getRestaurants().asLiveData()
-//    val astroids: Flow<List<Reminder>> = repository.getReminders3()
-
 
     enum class AuthenticationState{
         AUTHENTICATED, UNAUTHENTICATED

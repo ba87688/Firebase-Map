@@ -31,18 +31,12 @@ class EditReminderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentEditReminderBinding.inflate(inflater,container,false)
+        _binding = FragmentEditReminderBinding.inflate(inflater, container, false)
 
         val application = requireNotNull(this.activity).application
         val dataSource = RemindersDatabase.getDatabase(application)
         val viewModelFactory = LoginViewModelFactory(dataSource, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
-
-
-
-
-
-
 
 
         val reminder = args.reminderToEdit
@@ -59,7 +53,6 @@ class EditReminderFragment : Fragment() {
         }
 
         return binding.root
-//        return inflater.inflate(R.layout.fragment_edit_reminder, container, false)
     }
 
 

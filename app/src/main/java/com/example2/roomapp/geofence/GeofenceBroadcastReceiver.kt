@@ -23,8 +23,6 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
 
             // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
-        Log.i(TAG, "onReceive: Geofence broadcast")
-        Log.i(TAG, "onReceive: Geofence broadcast ${intent.action}")
 
         val app = context
 
@@ -39,15 +37,13 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
         when(transitionType){
             Geofence.GEOFENCE_TRANSITION_ENTER -> Log.i(TAG, "onReceive: YOU FREAKIN ENTERED") 
             Geofence.GEOFENCE_TRANSITION_EXIT -> Log.i(TAG, "onReceive: YOU FREAKIN EXITED")
-            else -> Log.i(TAG, "onReceive: WTF")
+            else -> Log.i(TAG, "onReceive: ")
 
         }
 
         val notice = NotificationChannel(context)
         //create a channel. only needed once
         notice.createNotificationChannel()
-        Log.i(TAG, "onReceive: Geofence broadcast 1 ${intent.action.toString()}")
-        Log.i(TAG, "onReceive: Geofence broadcast 2 ${PendingIntent.FLAG_UPDATE_CURRENT}")
 
         if (intent.action.toString() == "PendingIntent.FLAG_UPDATE_CURRENT"){
             //now create a notification taht goes in the channel

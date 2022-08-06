@@ -14,22 +14,19 @@ import kotlinx.coroutines.flow.Flow
 import org.json.JSONObject
 
 
-
-class RemindersRepository(private val database: RemindersDatabase) :ReminderRepo{
+class RemindersRepository(private val database: RemindersDatabase) : ReminderRepo {
 
 
     val reminderDao: RemainderDao = database.reminderDao()
 
-    override suspend fun getReminders():Result<List<Reminder>> =
-        withContext(Dispatchers.IO){
+    override suspend fun getReminders(): Result<List<Reminder>> =
+        withContext(Dispatchers.IO) {
             return@withContext try {
                 Result.Success(reminderDao.getReminders())
-            }catch (ex:Exception){
+            } catch (ex: Exception) {
                 Result.Error(ex.localizedMessage)
             }
         }
-
-
 
 
     override suspend fun getReminder(id: String): Result<Reminder> = withContext(Dispatchers.IO) {
@@ -46,47 +43,28 @@ class RemindersRepository(private val database: RemindersDatabase) :ReminderRepo
     }
 
 
-
-
     fun getRestaurants() = networkBoundResource(
         query = {
 
             reminderDao.getAllReminders2()
         },
         fetch = {
-            var pr : ArrayList<Reminder> = arrayListOf()
-//            withContext(Dispatchers.IO) {
-//                val formattedDateList = getRealParsedResponse()
-//
-//
-//                val data = service.getAstroids3(formattedDateList.first(),formattedDateList.last())
-//                val you = Gson().toJson(data)
-//                val you1 = JSONObject(you)
-//                val pr1 = parseAsteroidsJsonResult(you1)
-//                withContext(Dispatchers.IO){
-//                    pr= pr1
-//                }
-//            }
+            var pr: ArrayList<Reminder> = arrayListOf()
             pr
         },
-        saveFetchResult = { astroid->
-
-//            reminderDao.withTransaction {
-//                database.assDatabaseDao.deleteAllAstroids()
-//                database.assDatabaseDao.insertList(astroid)
-//            }
+        saveFetchResult = { astroid ->
         }
     )
 
 
-
-    override suspend fun deleteReminder(reminder: Reminder){
-        withContext(Dispatchers.IO){
+    override suspend fun deleteReminder(reminder: Reminder) {
+        withContext(Dispatchers.IO) {
             database.reminderDao().delete(reminder)
         }
     }
-    override suspend fun insertReminder(reminder: Reminder){
-        withContext(Dispatchers.IO){
+
+    override suspend fun insertReminder(reminder: Reminder) {
+        withContext(Dispatchers.IO) {
             database.reminderDao().insertReminder(reminder)
         }
     }

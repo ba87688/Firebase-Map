@@ -39,13 +39,12 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
     private var _binding: FragmentCurrentLocationBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel:LocationViewModel
+    private lateinit var viewModel: LocationViewModel
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val locationPermissionCode = 2
 
     private val REQUEST_LOCATION_PERMISSION = 1
-    private var listOfLatLong: MutableList<LatLng> = mutableListOf()
     private var listOfMarkers: MutableList<Marker> = mutableListOf()
     private var listOfPoi: MutableList<PointOfInterest> = mutableListOf()
 
@@ -81,23 +80,11 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 11f))
 
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 11f))
-            if (location != null) {
-//                Log.i("TAG", "Location latitude is : ${location.latitude.toString()} ")
-//                Log.i("TAG", "Location latitude is : ${location.longitude.toString()} ")
-//                val sydney = LatLng(location.latitude, location.longitude)
-//
-//                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 11f))
 
-
-
-            }
 
         }
 
         setPoiClick(map)
-
-//        val sydney = LatLng(-34.0, 151.0)
-//        val sydney = latLng
 
     }
 
@@ -107,27 +94,21 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
         setHasOptionsMenu(true)
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCurrentLocationBinding.inflate(inflater, container, false)
-
-
         viewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
-        Log.i("TAG", "onCreateView: Evan ${viewModel.number.toString()} ")
 
 
         fusedLocationClient =
             LocationServices.getFusedLocationProviderClient(requireActivity().application)
 
-
         binding.buttonMapSave.setOnClickListener {
-            Log.i("TAG", "clicked on button ")
-
             if (listOfMarkers.isEmpty()) {
-                Log.i("TAG", "clicked on button in empty list ")
                 val snack = Snackbar.make(
                     requireView(),
                     "Please pick a location to save.",
@@ -135,7 +116,6 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
                 ).setAction("Action", null)
                 snack.show()
             } else {
-                Log.i("TAG", "LIST OF MARKERS: ${listOfMarkers.get(0)} ")
                 val nav = findNavController()
 
                 val currentPoi = listOfPoi.get(0)
@@ -148,11 +128,9 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
                     currentPoi.placeId
                 )
 
-                val ltlong = LatLng(currentPoi.latLng.latitude,currentPoi.latLng.longitude)
-                addGeofence(ltlong,RADIUS_OF_CIRCULE.toFloat(),currentPoi.placeId)
+                val ltlong = LatLng(currentPoi.latLng.latitude, currentPoi.latLng.longitude)
+                addGeofence(ltlong, RADIUS_OF_CIRCULE.toFloat(), currentPoi.placeId)
 
-//                listOfPoi.clear()
-//                listOfMarkers.clear()
                 nav.navigate(
                     CurrentLocationFragmentDirections.actionCurrentLocationFragmentToSavingReminderFragment(
                         reminder
@@ -204,9 +182,6 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
             listOfPoi.add(poi)
 
 
-
-
-
         }
     }
 
@@ -256,11 +231,6 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
 
 
     override fun onMapLongClick(p0: LatLng) {
-//        map.clear()
-//        addMarket(p0)
-//        addCircle(p0, RADIUS_OF_CIRCULE.toDouble())
-//        addGeofence(p0,RADIUS_OF_CIRCULE.toFloat(),GEOFENCE_ID)
-
 
     }
 
@@ -281,10 +251,12 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
         map.addCircle(circleOptions)
 
     }
-    @SuppressLint("MissingPermission")
-    private fun addGeofence(latLng: LatLng, radius: Float, id:String ){
 
-        val geofence=geofenceHelper.getGeofence(id,latLng,radius,Geofence.GEOFENCE_TRANSITION_ENTER)
+    @SuppressLint("MissingPermission")
+    private fun addGeofence(latLng: LatLng, radius: Float, id: String) {
+
+        val geofence =
+            geofenceHelper.getGeofence(id, latLng, radius, Geofence.GEOFENCE_TRANSITION_ENTER)
         val geofenceRequest = geofenceHelper.getGeoFencingRequest(geofence!!)
         val pendingInt = geofenceHelper.getPendingIntent()
         geofencingClient.addGeofences(geofenceRequest, pendingInt)
@@ -295,32 +267,6 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
                 Log.i("TAG", "Geofence failure: ")
             })
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     //trying to remove geofence
@@ -340,43 +286,30 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.map_options_menu,menu)
+        inflater.inflate(R.menu.map_options_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean
-       = when(item.itemId){
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
 
-            R.id.normal_map -> {
-                map.mapType = GoogleMap.MAP_TYPE_NORMAL
-                true
-            }
-            R.id.hybrid_map -> {
-                map.mapType = GoogleMap.MAP_TYPE_HYBRID
-                true
-            }
-            R.id.satellite_map -> {
-                map.mapType = GoogleMap.MAP_TYPE_SATELLITE
-                true
-            }
-            R.id.terrain_map -> {
-                map.mapType = GoogleMap.MAP_TYPE_TERRAIN
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+        R.id.normal_map -> {
+            map.mapType = GoogleMap.MAP_TYPE_NORMAL
+            true
+        }
+        R.id.hybrid_map -> {
+            map.mapType = GoogleMap.MAP_TYPE_HYBRID
+            true
+        }
+        R.id.satellite_map -> {
+            map.mapType = GoogleMap.MAP_TYPE_SATELLITE
+            true
+        }
+        R.id.terrain_map -> {
+            map.mapType = GoogleMap.MAP_TYPE_TERRAIN
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

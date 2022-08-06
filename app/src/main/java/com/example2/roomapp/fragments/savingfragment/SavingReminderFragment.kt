@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 
 class SavingReminderFragment : Fragment() {
 
-    private var _binding:FragmentSavingReminderObjectBinding?= null
+    private var _binding: FragmentSavingReminderObjectBinding? = null
     private val binding get() = _binding!!
 
 
@@ -38,31 +38,37 @@ class SavingReminderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding= FragmentSavingReminderObjectBinding.inflate(inflater,container,false)
+        _binding = FragmentSavingReminderObjectBinding.inflate(inflater, container, false)
 
         val application = requireNotNull(this.activity).application
         val dataSource = RemindersDatabase.getDatabase(application)
-        val viewModelFactory = LoginViewModelFactory(dataSource,application)
+        val viewModelFactory = LoginViewModelFactory(dataSource, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
 
         val reminder = args.reminder
-        Log.i("TAG", "REMINDER IS : ${reminder.latitude} ")
-        // Inflate the layout for this fragment
 
-//        val geo = LatLng(reminder.latitude?.toDouble()!!, reminder.longitude?.toDouble()!!)
         binding.tvNameOfReminderLocationEdit.text = reminder.title.toString()
         binding.tvTitleOfReminderEdit.text = "Reminder Location"
 
 
 
         binding.floatingActionButtonSave.setOnClickListener {
-//            if (binding.etReminderTitle.text.isNotEmpty())
-            if (binding.etReminderTitleEdit.text.isEmpty() || binding.etReminderDescriptionEdit.text.isEmpty()){
-                val snack = Snackbar.make(requireView(),"Please enter title and description.", Snackbar.LENGTH_SHORT).setAction("Action", null)
+            if (binding.etReminderTitleEdit.text.isEmpty() || binding.etReminderDescriptionEdit.text.isEmpty()) {
+                val snack = Snackbar.make(
+                    requireView(),
+                    "Please enter title and description.",
+                    Snackbar.LENGTH_SHORT
+                ).setAction("Action", null)
                 snack.show()
-            }else{
-                val reminderToSave = Reminder(binding.etReminderTitleEdit.text.toString(),binding.etReminderDescriptionEdit.text.toString(),reminder.title.toString(),reminder.latitude,reminder.longitude)
+            } else {
+                val reminderToSave = Reminder(
+                    binding.etReminderTitleEdit.text.toString(),
+                    binding.etReminderDescriptionEdit.text.toString(),
+                    reminder.title.toString(),
+                    reminder.latitude,
+                    reminder.longitude
+                )
 
                 viewModel.insertReminder(reminderToSave)
 
