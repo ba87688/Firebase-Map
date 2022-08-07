@@ -19,9 +19,11 @@ import com.example2.roomapp.viewmodels.login.LoginViewModel
 import com.example2.roomapp.viewmodels.login.LoginViewModelFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class SavingReminderFragment : Fragment() {
 
     private var _binding: FragmentSavingReminderObjectBinding? = null
@@ -33,6 +35,10 @@ class SavingReminderFragment : Fragment() {
 
     val args: SavingReminderFragmentArgs by navArgs()
 
+    @Inject
+    lateinit var db:RemindersDatabase
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,8 +47,8 @@ class SavingReminderFragment : Fragment() {
         _binding = FragmentSavingReminderObjectBinding.inflate(inflater, container, false)
 
         val application = requireNotNull(this.activity).application
-        val dataSource = RemindersDatabase.getDatabase(application)
-        val viewModelFactory = LoginViewModelFactory(dataSource, application)
+//        val dataSource = RemindersDatabase.getDatabase(application)
+        val viewModelFactory = LoginViewModelFactory(db, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
 

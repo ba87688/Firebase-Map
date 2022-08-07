@@ -12,9 +12,10 @@ import com.example2.roomapp.data.database.networkBoundResource
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import org.json.JSONObject
+import javax.inject.Inject
 
 
-class RemindersRepository(private val database: RemindersDatabase) : ReminderRepo {
+class RemindersRepository @Inject constructor(private val database: RemindersDatabase) : ReminderRepo {
 
 
     val reminderDao: RemainderDao = database.reminderDao()

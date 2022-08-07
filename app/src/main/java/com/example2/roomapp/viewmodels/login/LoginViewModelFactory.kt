@@ -4,9 +4,11 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example2.roomapp.data.database.RemindersDatabase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
-class LoginViewModelFactory(
+class LoginViewModelFactory @Inject constructor(
     private val dataSource: RemindersDatabase,
     private val application: Application
 ) : ViewModelProvider.Factory {

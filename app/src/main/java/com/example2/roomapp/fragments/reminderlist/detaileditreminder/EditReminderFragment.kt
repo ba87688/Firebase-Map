@@ -16,7 +16,10 @@ import com.example2.roomapp.viewmodels.login.LoginViewModel
 import com.example2.roomapp.viewmodels.login.LoginViewModelFactory
 import com.google.android.gms.location.GeofencingClient
 import com.google.android.gms.location.LocationServices
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class EditReminderFragment : Fragment() {
     private var _binding: FragmentEditReminderBinding? = null
     private val binding get() = _binding!!
@@ -24,6 +27,10 @@ class EditReminderFragment : Fragment() {
     private lateinit var viewModel: LoginViewModel
 
     val args: EditReminderFragmentArgs by navArgs()
+
+
+    @Inject
+    lateinit var db:RemindersDatabase
 
 
     override fun onCreateView(
@@ -34,8 +41,8 @@ class EditReminderFragment : Fragment() {
         _binding = FragmentEditReminderBinding.inflate(inflater, container, false)
 
         val application = requireNotNull(this.activity).application
-        val dataSource = RemindersDatabase.getDatabase(application)
-        val viewModelFactory = LoginViewModelFactory(dataSource, application)
+//        val dataSource = RemindersDatabase.getDatabase(application)
+        val viewModelFactory = LoginViewModelFactory(db, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
         val reminder = args.reminderToEdit

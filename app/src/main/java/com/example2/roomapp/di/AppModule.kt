@@ -1,5 +1,6 @@
 package com.example2.roomapp.di
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.example2.roomapp.data.database.RemindersDatabase
@@ -9,6 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -16,11 +18,11 @@ import javax.inject.Singleton
 object AppModule {
 
 
-    @Provides
     @Singleton
+    @Provides
     fun provideReminderDatabase(
-        @ApplicationContext context:Context
-    )=Room.databaseBuilder(context,RemindersDatabase::class.java, DATABASE_NAME).build()
+         context: Application
+    ):RemindersDatabase= RemindersDatabase.getDatabase(context)
 
 
     @Provides

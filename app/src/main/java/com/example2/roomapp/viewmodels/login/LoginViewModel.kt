@@ -2,18 +2,21 @@ package com.example2.roomapp.viewmodels.login
 
 import android.app.Application
 import androidx.lifecycle.*
+import androidx.room.RoomDatabase
 import com.example2.roomapp.data.Reminder
 import com.example2.roomapp.data.database.RemindersDatabase
 import com.example2.roomapp.firebase.FirebaseUserLiveData
 import com.example2.roomapp.repository.RemindersRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toCollection
+import dagger.hilt.android.lifecycle.HiltViewModel
+
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class LoginViewModel @Inject constructor(val database: RemindersDatabase, application: Application): AndroidViewModel(application) {
 
 
-class LoginViewModel(val database: RemindersDatabase, application: Application): AndroidViewModel(application) {
-    private var repository: RemindersRepository = RemindersRepository(database)
+    var repository: RemindersRepository = RemindersRepository( database)
 
       val restaurants = repository.getRestaurants().asLiveData()
 

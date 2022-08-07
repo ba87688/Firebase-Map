@@ -9,6 +9,7 @@ import com.example2.roomapp.data.Reminder
 
 @Database(entities = [Reminder::class], version = 1, exportSchema = false)
 abstract class RemindersDatabase : RoomDatabase() {
+
     abstract fun reminderDao(): RemainderDao
 
 
