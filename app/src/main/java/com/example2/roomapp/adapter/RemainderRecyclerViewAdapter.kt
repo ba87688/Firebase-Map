@@ -44,8 +44,6 @@ class RemainderRecyclerViewAdapter(
         holder: RemainderRecyclerViewAdapter.ReminderViewHolder,
         position: Int
     ) {
-        Log.i("FUCKING HELL", "onBindViewHolder: in the adapater ${list.get(position).id}")
-
         holder.itemView.apply {
             tv_name.text = list.get(position).title
             tv_place.text = list.get(position).location

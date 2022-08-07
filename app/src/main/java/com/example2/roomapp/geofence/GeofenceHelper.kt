@@ -6,6 +6,7 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.util.Log
 import com.google.android.gms.location.Geofence
+import com.google.android.gms.location.GeofencingEvent
 import com.google.android.gms.location.GeofencingRequest
 import com.google.android.gms.maps.model.LatLng
 
@@ -13,6 +14,7 @@ const val TAG = "GEOFENCE_HELPER"
 class GeofenceHelper(context:Context): ContextWrapper(context) {
 
     var pendingIntenta:PendingIntent? = null
+
 
     public fun getGeoFencingRequest(geofence:Geofence):GeofencingRequest?{
         return GeofencingRequest.Builder()
@@ -33,10 +35,6 @@ class GeofenceHelper(context:Context): ContextWrapper(context) {
             .build()
     }
 
-
-
-
-
     public fun getPendingIntent():PendingIntent?{
         if(pendingIntenta!=null){
             Log.i(TAG, "getPendingIntent: error")
@@ -46,15 +44,8 @@ class GeofenceHelper(context:Context): ContextWrapper(context) {
             val intent = Intent(this,GeofenceBroadcastReceiver::class.java)
             intent.action = "PendingIntent.FLAG_UPDATE_CURRENT"
             PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT)
-
         }
-//        val intent = Intent(this,GeofenceBroadcastReceiver::class.java)
-
-//
-//        pendingIntenta = PendingIntent.getBroadcast(this,2607,intent,PendingIntent.FLAG_UPDATE_CURRENT)
-//        return pendingIntenta
-return geofencingPendingIntnet
-
+        return geofencingPendingIntnet
     }
 
 

@@ -72,7 +72,6 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
             list2 = it.data!!
             val list = it.data
             val size = list?.size
-            Log.i("TAG", "LIST SIZE : $size ")
             if (list != null) {
                 binding.reminderRecyclerView.adapter =
                     RemainderRecyclerViewAdapter(list, this@RemindersFragment)
