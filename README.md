@@ -11,5 +11,6 @@ App uses:
 - Geofencing
 - Firebase Login
 - Google Maps API
+- Dagger Hilt DI
 - Tests written so far: 
     + Room Database Test
