@@ -21,4 +21,9 @@ object AppModule {
     fun provideReminderDatabase(
         @ApplicationContext context:Context
     )=Room.databaseBuilder(context,RemindersDatabase::class.java, DATABASE_NAME).build()
+
+
+    @Provides
+    @Singleton
+    fun provideReminderDatabaseDao(db:RemindersDatabase) = db.reminderDao()
 }
