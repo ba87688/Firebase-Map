@@ -29,9 +29,7 @@ class SavingReminderFragment : Fragment() {
     private var _binding: FragmentSavingReminderObjectBinding? = null
     private val binding get() = _binding!!
 
-
     private lateinit var viewModel: LoginViewModel
-
 
     val args: SavingReminderFragmentArgs by navArgs()
 

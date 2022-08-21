@@ -57,6 +57,8 @@ class LocationViewModel : ViewModel() {
 
     }
 
+    fun getLatLong(currentPoi: PointOfInterest): LatLng =LatLng(currentPoi.latLng.latitude, currentPoi.latLng.longitude)
+
 
 
 }

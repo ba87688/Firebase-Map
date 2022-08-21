@@ -46,7 +46,6 @@ class RemindersRepository @Inject constructor(private val database: RemindersDat
 
     fun getRestaurants() = networkBoundResource(
         query = {
-
             reminderDao.getAllReminders2()
         },
         fetch = {
@@ -56,20 +55,16 @@ class RemindersRepository @Inject constructor(private val database: RemindersDat
         saveFetchResult = { astroid ->
         }
     )
-
-
     override suspend fun deleteReminder(reminder: Reminder) {
         withContext(Dispatchers.IO) {
             database.reminderDao().delete(reminder)
         }
     }
-
     override suspend fun insertReminder(reminder: Reminder) {
         withContext(Dispatchers.IO) {
             database.reminderDao().insertReminder(reminder)
         }
     }
-
     override suspend fun deleteAllReminders() {
         withContext(Dispatchers.IO) {
             reminderDao.deleteAllReminders()

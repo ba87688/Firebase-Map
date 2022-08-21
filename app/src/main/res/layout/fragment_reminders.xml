@@ -12,10 +12,16 @@
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/imagetry"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reminder_recycler_view"
             android:layout_width="match_parent"
+
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 

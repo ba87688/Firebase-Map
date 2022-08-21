@@ -1,6 +1,7 @@
 package com.example2.roomapp.fragments.login
 
 import android.app.Activity
+import android.app.Application
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -30,9 +31,10 @@ class LoginFragment : Fragment() {
     val SIGN_IN_REQUEST_CODE = -1
 
     private lateinit var viewModel: LoginViewModel
-
     @Inject
     lateinit var db:RemindersDatabase
+    @Inject
+    lateinit var application: Application
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,8 +42,6 @@ class LoginFragment : Fragment() {
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        val application = requireNotNull(this.activity).application
-//        val dataSource = RemindersDatabase.getDatabase(application)
 
         val viewModelFactory = LoginViewModelFactory ( db, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)

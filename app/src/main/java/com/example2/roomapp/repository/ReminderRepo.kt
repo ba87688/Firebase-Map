@@ -10,7 +10,6 @@ interface ReminderRepo {
 
     suspend fun getReminder(id: String): Result<Reminder>
 
-
     suspend fun deleteReminder(reminder: Reminder)
 
     suspend fun insertReminder(reminder: Reminder)

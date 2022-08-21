@@ -45,8 +45,6 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
     private val locationPermissionCode = 2
 
     private val REQUEST_LOCATION_PERMISSION = 1
-//    private var listOfMarkers: MutableList<Marker> = mutableListOf()
-//    private var listOfPoi: MutableList<PointOfInterest> = mutableListOf()
 
     //geofence variables
     private lateinit var geofencingClient: GeofencingClient
@@ -67,6 +65,7 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
         enableMyLocation()
 
 
+
 //        initialize geofencingclient
         geofencingClient = LocationServices.getGeofencingClient(requireContext())
         geofenceHelper = GeofenceHelper(requireContext())
@@ -80,8 +79,6 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 11f))
 
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 11f))
-
-
         }
 
         setPoiClick(map)
@@ -121,7 +118,7 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
                 val currentPoi = viewModel.listOfPoi.get(0)
                 val reminder = viewModel.createReminder(currentPoi)
 
-                val ltlong = LatLng(currentPoi.latLng.latitude, currentPoi.latLng.longitude)
+                val ltlong = viewModel.getLatLong(currentPoi)
                 addGeofence(ltlong, RADIUS_OF_CIRCULE.toFloat(), currentPoi.placeId)
 
                 nav.navigate(

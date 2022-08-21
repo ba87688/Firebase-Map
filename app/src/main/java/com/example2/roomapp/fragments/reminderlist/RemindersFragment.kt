@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.view.Gravity.apply
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -27,6 +28,10 @@ import com.example2.roomapp.viewmodels.login.LoginViewModel
 import com.example2.roomapp.viewmodels.login.LoginViewModelFactory
 import com.firebase.ui.auth.AuthUI
 import kotlinx.coroutines.launch
+import android.view.Gravity
+
+
+
 
 class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickListener {
     private var _binding: FragmentRemindersBinding? = null
@@ -78,10 +83,10 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
             }
             if (list?.size == 0 || list == null) {
                 if (i < 1) {
-                    val imageView = ImageView(this@RemindersFragment.context)
-                    imageView.setImageResource(R.drawable.ic_no_data)
-                    binding.frameLayout.addView(imageView)
-                    i = i + 1
+
+                    binding.imagetry.setImageResource(R.drawable.ic_no_data)
+                    binding.reminderRecyclerView.visibility = View.INVISIBLE
+
                 }
 
             }
