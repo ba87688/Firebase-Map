@@ -1,6 +1,7 @@
 package com.example2.roomapp.fragments.reminderlist
 
 import android.Manifest
+import android.app.Application
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -29,20 +30,22 @@ import com.example2.roomapp.viewmodels.login.LoginViewModelFactory
 import com.firebase.ui.auth.AuthUI
 import kotlinx.coroutines.launch
 import android.view.Gravity
+import com.example2.roomapp.other.Constants.REQUEST_LOCATION_PERMISSION
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
-
-
+@AndroidEntryPoint
 class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickListener {
     private var _binding: FragmentRemindersBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var viewModel: LoginViewModel
-    private val REQUEST_LOCATION_PERMISSION = 1
-    var i = 0
 
-    var list2: List<Reminder> = mutableListOf()
+    @Inject
+    lateinit var datasource: RemindersDatabase
 
+    @Inject
+    lateinit var application: Application
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -56,12 +59,8 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
         _binding = FragmentRemindersBinding.inflate(inflater, container, false)
 
 
-        val application = requireNotNull(this.activity).application
-        val dataSource = RemindersDatabase.getDatabase(application)
-        val viewModelFactory = LoginViewModelFactory(dataSource, application)
+        val viewModelFactory = LoginViewModelFactory(datasource, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
-
-
 
 
         enableMyLocation()
@@ -74,26 +73,17 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
         }
 
         viewModel.restaurants.observe(viewLifecycleOwner, Observer { it ->
-            list2 = it.data!!
+            viewModel.list2 = it.data!!
             val list = it.data
-            val size = list?.size
             if (list != null) {
                 binding.reminderRecyclerView.adapter =
                     RemainderRecyclerViewAdapter(list, this@RemindersFragment)
             }
             if (list?.size == 0 || list == null) {
-                if (i < 1) {
-
                     binding.imagetry.setImageResource(R.drawable.ic_no_data)
                     binding.reminderRecyclerView.visibility = View.INVISIBLE
-
-                }
-
             }
-
         })
-
-
         return binding.root
     }
 
@@ -115,8 +105,6 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
                         }
                         LoginViewModel.AuthenticationState.UNAUTHENTICATED -> {
                             findNavController().navigate(RemindersFragmentDirections.actionRemindersFragmentToLoginFragment())
-
-
                         }
 
                     }
@@ -206,7 +194,7 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
 
     override fun onItemClick(position: Int) {
         //get the reminder that is clicked on
-        val reminder = list2.get(position)
+        val reminder = viewModel.list2.get(position)
         val nav = findNavController()
 
 

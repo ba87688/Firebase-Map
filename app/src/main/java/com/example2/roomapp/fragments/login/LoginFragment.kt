@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.example2.roomapp.R
 import com.example2.roomapp.data.database.RemindersDatabase
 import com.example2.roomapp.databinding.FragmentLoginBinding
+import com.example2.roomapp.other.Constants.SIGN_IN_REQUEST_CODE
 import com.example2.roomapp.viewmodels.login.LoginViewModel
 import com.example2.roomapp.viewmodels.login.LoginViewModelFactory
 import com.firebase.ui.auth.AuthUI
@@ -28,7 +29,6 @@ import javax.inject.Inject
 class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    val SIGN_IN_REQUEST_CODE = -1
 
     private lateinit var viewModel: LoginViewModel
     @Inject

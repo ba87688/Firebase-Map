@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example2.roomapp.data.database.RemindersDatabase
 import com.example2.roomapp.other.Constants.DATABASE_NAME
+import com.example2.roomapp.repository.RemindersRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,4 +29,5 @@ object AppModule {
     @Provides
     @Singleton
     fun provideReminderDatabaseDao(db:RemindersDatabase) = db.reminderDao()
-}
+
+  }

@@ -1,5 +1,6 @@
 package com.example2.roomapp.fragments.savingfragment
 
+import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -36,6 +37,9 @@ class SavingReminderFragment : Fragment() {
     @Inject
     lateinit var db:RemindersDatabase
 
+    @Inject
+    lateinit var application: Application
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,8 +48,6 @@ class SavingReminderFragment : Fragment() {
 
         _binding = FragmentSavingReminderObjectBinding.inflate(inflater, container, false)
 
-        val application = requireNotNull(this.activity).application
-//        val dataSource = RemindersDatabase.getDatabase(application)
         val viewModelFactory = LoginViewModelFactory(db, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
@@ -53,7 +55,7 @@ class SavingReminderFragment : Fragment() {
         val reminder = args.reminder
 
         binding.tvNameOfReminderLocationEdit.text = reminder.title.toString()
-        binding.tvTitleOfReminderEdit.text = "Reminder Location"
+        binding.tvTitleOfReminderEdit.text = reminder.location.toString()
 
 
 

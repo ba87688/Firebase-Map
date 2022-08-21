@@ -22,6 +22,8 @@ import com.example2.roomapp.data.Reminder
 import com.example2.roomapp.databinding.FragmentCurrentLocationBinding
 import com.example2.roomapp.databinding.FragmentRemindersBinding
 import com.example2.roomapp.geofence.GeofenceHelper
+import com.example2.roomapp.other.Constants.RADIUS_OF_CIRCULE
+import com.example2.roomapp.other.Constants.REQUEST_LOCATION_PERMISSION
 import com.example2.roomapp.viewmodels.reminderlocation.LocationViewModel
 import com.google.android.gms.location.*
 
@@ -35,25 +37,15 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.snackbar.Snackbar
 
 class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
-
     private var _binding: FragmentCurrentLocationBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var viewModel: LocationViewModel
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private val locationPermissionCode = 2
-
-    private val REQUEST_LOCATION_PERMISSION = 1
-
     //geofence variables
     private lateinit var geofencingClient: GeofencingClient
-    private val RADIUS_OF_CIRCULE = 2000
-    private val GEOFENCE_ID = "SOME_GEOFENCE_ID"
     private lateinit var geofenceHelper: GeofenceHelper
-
-    var mapCircle: Circle? = null
-
 
     lateinit var map: GoogleMap
 
@@ -63,8 +55,6 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
         map = googleMap
 
         enableMyLocation()
-
-
 
 //        initialize geofencingclient
         geofencingClient = LocationServices.getGeofencingClient(requireContext())
@@ -125,14 +115,8 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
                     CurrentLocationFragmentDirections.actionCurrentLocationFragmentToSavingReminderFragment(
                         reminder
                     )
-                )
-
-            }
-
-
+                ) }
         }
-
-
         return binding.root
     }
 
@@ -140,16 +124,12 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
-
-
     }
 
 
     //adding point of interest click listenener method
     private fun setPoiClick(map: GoogleMap) {
         map.setOnPoiClickListener { poi ->
-            Log.i("TAG", "setPoiClick: ${poi.latLng}")
-
             map.clear()
             //new marker
             val poiMarket = map.addMarker(
@@ -176,8 +156,6 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
     }
 
     //end of adding point of interest click listenener method
-
-
     private fun isPermissionGranted(): Boolean {
         return ContextCompat.checkSelfPermission(
             this@CurrentLocationFragment.requireContext(),
@@ -189,7 +167,6 @@ class CurrentLocationFragment : Fragment(), GoogleMap.OnMapLongClickListener {
     private fun enableMyLocation() {
         if (isPermissionGranted()) {
             map.setMyLocationEnabled(true)
-            Log.i("TAG", "enableMyLocation: permission is granted")
         } else {
             ActivityCompat.requestPermissions(
                 this@CurrentLocationFragment.requireActivity(),

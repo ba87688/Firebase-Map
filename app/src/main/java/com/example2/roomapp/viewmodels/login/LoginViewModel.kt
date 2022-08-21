@@ -15,10 +15,15 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(val database: RemindersDatabase, application: Application): AndroidViewModel(application) {
 
+    var list2: List<Reminder>
+    init {
+        list2 =  mutableListOf()
+    }
 
     var repository: RemindersRepository = RemindersRepository( database)
 
-      val restaurants = repository.getRestaurants().asLiveData()
+
+    val restaurants = repository.getRestaurants().asLiveData()
 
     enum class AuthenticationState{
         AUTHENTICATED, UNAUTHENTICATED
@@ -42,7 +47,4 @@ class LoginViewModel @Inject constructor(val database: RemindersDatabase, applic
             repository.insertReminder(reminder)
         }
     }
-
-
-
 }
