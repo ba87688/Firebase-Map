@@ -30,6 +30,7 @@ import com.example2.roomapp.viewmodels.login.LoginViewModelFactory
 import com.firebase.ui.auth.AuthUI
 import kotlinx.coroutines.launch
 import android.view.Gravity
+import androidx.appcompat.app.AppCompatActivity
 import com.example2.roomapp.other.Constants.REQUEST_LOCATION_PERMISSION
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -62,6 +63,7 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
         val viewModelFactory = LoginViewModelFactory(datasource, application,null,this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.current_reminders)
 
         enableMyLocation()
         enableMyLocation2()

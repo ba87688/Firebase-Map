@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example2.roomapp.R
 import com.example2.roomapp.data.database.RemindersDatabase
 import com.example2.roomapp.databinding.FragmentEditReminderBinding
 import com.example2.roomapp.geofence.GeofenceHelper
@@ -43,6 +45,7 @@ class EditReminderFragment : Fragment() {
 
         val viewModelFactory = LoginViewModelFactory(db, application,null,this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.edit_reminders)
 
         val reminder = args.reminderToEdit
 

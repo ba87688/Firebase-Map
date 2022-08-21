@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -51,6 +52,7 @@ class SavingReminderFragment : Fragment() {
         val viewModelFactory = LoginViewModelFactory(db, application,null,this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.save_screen)
 
         val reminder = args.reminder
 

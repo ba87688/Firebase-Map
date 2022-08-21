@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">LoggingIntoFireB</string>
+    <string name="current_reminders">Current Reminders</string>
+    <string name="edit_reminders">Edit Reminder</string>
+    <string name="login_screen">Hello!</string>
+    <string name="save_screen">Save Your Reminder</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="welcome_message">44</string>

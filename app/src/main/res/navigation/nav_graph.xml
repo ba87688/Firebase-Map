@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example2.roomapp.fragments.login.LoginFragment"
-        android:label="Welcome"
         tools:layout="@layout/fragment_login">
 
         <action
@@ -25,7 +24,6 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@+id/loginFragment"
             app:popUpToInclusive="true"/>
-
         <action
             android:id="@+id/action_remindersFragment_to_currentlocationfragment"
             app:destination="@id/currentLocationFragment"/>
