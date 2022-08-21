@@ -15,7 +15,7 @@ import androidx.room.Room
 import com.example2.roomapp.R
 import com.example2.roomapp.data.Reminder
 import com.example2.roomapp.data.database.RemindersDatabase
-import com.example2.roomapp.databinding.FragmentSavingReminderObjectBinding
+import com.example2.roomapp.databinding.FragmentSavingDetailsBinding
 import com.example2.roomapp.viewmodels.login.LoginViewModel
 import com.example2.roomapp.viewmodels.login.LoginViewModelFactory
 import com.google.android.gms.maps.model.LatLng
@@ -27,7 +27,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SavingReminderFragment : Fragment() {
 
-    private var _binding: FragmentSavingReminderObjectBinding? = null
+    private var _binding: FragmentSavingDetailsBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var viewModel: LoginViewModel
@@ -46,16 +46,15 @@ class SavingReminderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentSavingReminderObjectBinding.inflate(inflater, container, false)
+        _binding = FragmentSavingDetailsBinding.inflate(inflater, container, false)
 
-        val viewModelFactory = LoginViewModelFactory(db, application)
+        val viewModelFactory = LoginViewModelFactory(db, application,null,this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
 
         val reminder = args.reminder
 
         binding.tvNameOfReminderLocationEdit.text = reminder.title.toString()
-        binding.tvTitleOfReminderEdit.text = reminder.location.toString()
 
 
 

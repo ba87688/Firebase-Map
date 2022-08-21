@@ -59,7 +59,7 @@ class RemindersFragment : Fragment(), RemainderRecyclerViewAdapter.OnItemClickLi
         _binding = FragmentRemindersBinding.inflate(inflater, container, false)
 
 
-        val viewModelFactory = LoginViewModelFactory(datasource, application)
+        val viewModelFactory = LoginViewModelFactory(datasource, application,null,this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
 

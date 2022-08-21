@@ -43,7 +43,7 @@ class LoginFragment : Fragment() {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
 
-        val viewModelFactory = LoginViewModelFactory ( db, application)
+        val viewModelFactory = LoginViewModelFactory ( db, application,null,this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
 

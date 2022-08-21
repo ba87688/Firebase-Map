@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/colorPinked"
+    android:background="@color/colorWhite"
     android:layout_height="match_parent"
+
     tools:context=".fragments.reminderlist.detaileditreminder.EditReminderFragment">
 
     <TextView
@@ -13,10 +14,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:gravity="center"
-        android:textColor="@color/colorBlack"
-        android:fontFamily="casual"
-        android:textSize="23sp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
 
+        android:background="@color/offWhite"
+
+        android:textColor="@color/colorBlack"
+        android:textSize="23sp"
         tools:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -29,11 +33,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:fontFamily="casual"
-        android:gravity="center"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:background="@color/offWhite"
         tools:text="Name"
         android:textColor="@color/colorBlack"
-
         android:textSize="23sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -42,7 +46,7 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginTop="68dp"
@@ -53,13 +57,14 @@
 
     <TextView
         android:id="@+id/edit_place_of_reminder"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="10dp"
         android:textColor="@color/colorPink"
-        android:fontFamily="casual"
         android:textSize="23sp"
-
         tools:text="TextView"
+        android:background="@color/offWhite"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.108"

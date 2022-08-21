@@ -1,5 +1,6 @@
 package com.example2.roomapp.fragments.reminderlist.detaileditreminder
 
+import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -28,10 +29,10 @@ class EditReminderFragment : Fragment() {
 
     val args: EditReminderFragmentArgs by navArgs()
 
-
     @Inject
     lateinit var db:RemindersDatabase
-
+    @Inject
+    lateinit var application: Application
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,9 +41,7 @@ class EditReminderFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentEditReminderBinding.inflate(inflater, container, false)
 
-        val application = requireNotNull(this.activity).application
-//        val dataSource = RemindersDatabase.getDatabase(application)
-        val viewModelFactory = LoginViewModelFactory(db, application)
+        val viewModelFactory = LoginViewModelFactory(db, application,null,this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
         val reminder = args.reminderToEdit
