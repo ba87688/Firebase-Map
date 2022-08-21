@@ -15,5 +15,6 @@ App uses:
 - Firebase Login
 - Google Maps API
 - Dagger Hilt DI
+- Kotlin Coroutines
 - Tests written so far: 
     + Room Database Test
